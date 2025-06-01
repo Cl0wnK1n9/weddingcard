@@ -5,20 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>A Journey of Love</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Georgia', serif;
       background: #fffaf8;
       color: #4b2e2e;
+      overflow: hidden;
     }
-    header {
-      text-align: center;
-      padding: 4rem 1rem;
-      background: linear-gradient(to bottom, #fcefee, #fffaf8);
+    .slider-wrapper {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
     }
+    .slider {
+      display: flex;
+      width: 400vw;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      touch-action: pan-y;
+    }
+    .slide:nth-child(1) { background: linear-gradient(to bottom, #fcefee, #fffaf8); }
+    .slide:nth-child(2) { background: #fffaf8; }
+    .slide:nth-child(3) { background: #fff2f2; }
+    .slide:nth-child(4) { background: #fcefee; }
+
     .bow {
       width: 80px;
-      margin: 0 auto 1rem;
+      margin-bottom: 1rem;
     }
     .title {
       font-size: 2rem;
@@ -28,14 +55,10 @@
       font-size: 1rem;
       font-style: italic;
     }
-    section {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 0 1rem;
-    }
     .timeline {
       border-left: 4px solid #d4a5a5;
       padding-left: 1rem;
+      max-width: 600px;
     }
     .event {
       margin: 2rem 0;
@@ -48,9 +71,6 @@
       margin: 0;
     }
     .details, .thankyou {
-      background: #fff2f2;
-      border-radius: 1rem;
-      padding: 2rem 1rem;
       text-align: center;
     }
     .rsvp-button {
@@ -66,11 +86,25 @@
     .rsvp-button:hover {
       background: #b37777;
     }
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      color: #8b4c4c;
+
+    .dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d4a5a5;
+      opacity: 0.5;
+    }
+    .dot.active {
+      opacity: 1;
+      background: #8b4c4c;
     }
 
     @media (max-width: 600px) {
@@ -94,49 +128,133 @@
   </style>
 </head>
 <body>
-  <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Bow_icon.svg/512px-Bow_icon.svg.png" alt="Bow" class="bow" />
-    <div class="title">[Bride's Name] & [Groom's Name]</div>
-    <div class="subtitle">A Journey of Love</div>
-  </header>
-
-  <section class="timeline">
-    <div class="event">
-      <h3>📍 When We Met</h3>
-      <p>A casual moment that changed everything.</p>
+  <div class="slider-wrapper" id="sliderWrapper">
+    <div class="slider" id="slider">
+      <div class="slide">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Bow_icon.svg/512px-Bow_icon.svg.png" alt="Bow" class="bow" />
+        <div class="title">[Bride's Name] & [Groom's Name]</div>
+        <div class="subtitle">A Journey of Love</div>
+      </div>
+      <div class="slide">
+        <h2>A Journey of Love</h2>
+        <div class="timeline">
+          <div class="event">
+            <h3>📍 When We Met</h3>
+            <p>A casual moment that changed everything.</p>
+          </div>
+          <div class="event">
+            <h3>💌 First Date</h3>
+            <p>Nervous laughs and unforgettable memories.</p>
+          </div>
+          <div class="event">
+            <h3>🌅 First Trip Together</h3>
+            <p>Adventures that brought us closer.</p>
+          </div>
+          <div class="event">
+            <h3>💍 The Proposal</h3>
+            <p>A moment we’ll cherish forever.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="details">
+          <h2>🎀 The Wedding</h2>
+          <p>Date: [Wedding Date]</p>
+          <p>Location: [Venue or Livestream Link]</p>
+          <p>Time: [Start Time]</p>
+          <p>Dress Code: [Optional]</p>
+          <button class="rsvp-button">RSVP</button>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="thankyou">
+          <h2>Thank You</h2>
+          <p>Thank you for being part of our story.</p>
+          <p>With love,</p>
+          <p><strong>[Bride's Name] & [Groom's Name]</strong></p>
+        </div>
+      </div>
     </div>
-    <div class="event">
-      <h3>💌 First Date</h3>
-      <p>Nervous laughs and unforgettable memories.</p>
-    </div>
-    <div class="event">
-      <h3>🌅 First Trip Together</h3>
-      <p>Adventures that brought us closer.</p>
-    </div>
-    <div class="event">
-      <h3>💍 The Proposal</h3>
-      <p>A moment we’ll cherish forever.</p>
-    </div>
-  </section>
+    <div class="dots" id="dots"></div>
+  </div>
 
-  <section class="details">
-    <h2>🎀 The Wedding</h2>
-    <p>Date: [Wedding Date]</p>
-    <p>Location: [Venue or Livestream Link]</p>
-    <p>Time: [Start Time]</p>
-    <p>Dress Code: [Optional]</p>
-    <button class="rsvp-button">RSVP</button>
-  </section>
+  <script>
+    let currentIndex = 0;
+    const slider = document.getElementById('slider');
+    const wrapper = document.getElementById('sliderWrapper');
+    const totalSlides = slider.children.length;
+    const dotsContainer = document.getElementById('dots');
 
-  <section class="thankyou">
-    <h2>Thank You</h2>
-    <p>Thank you for being part of our story.</p>
-    <p>With love,</p>
-    <p><strong>[Bride's Name] & [Groom's Name]</strong></p>
-  </section>
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (i === 0) dot.classList.add('active');
+      dotsContainer.appendChild(dot);
+    }
+    const dots = document.querySelectorAll('.dot');
 
-  <footer>
-    &copy; 2025 A Journey of Love | Designed with ❤️
-  </footer>
+    function updateSlide() {
+      slider.style.transform = `translateX(-${currentIndex * 100}vw)`;
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[currentIndex].classList.add('active');
+    }
+
+    function navigate(direction) {
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = 0;
+      if (currentIndex >= totalSlides) currentIndex = totalSlides - 1;
+      updateSlide();
+    }
+
+    // Touch support
+    let startX = 0;
+    let startY = 0;
+    let isSwiping = false;
+
+    wrapper.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isSwiping = true;
+    });
+
+    wrapper.addEventListener('touchend', (e) => {
+      if (!isSwiping) return;
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const deltaX = endX - startX;
+      const deltaY = endY - startY;
+
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+          navigate(-1);
+        } else {
+          navigate(1);
+        }
+      }
+      isSwiping = false;
+    });
+
+    // Mouse drag support
+    let isDragging = false;
+    let mouseStartX = 0;
+
+    wrapper.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      mouseStartX = e.clientX;
+    });
+
+    wrapper.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - mouseStartX;
+      if (Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+          navigate(-1);
+        } else {
+          navigate(1);
+        }
+      }
+      isDragging = false;
+    });
+  </script>
 </body>
 </html>
