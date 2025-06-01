@@ -37,6 +37,13 @@
       justify-content: center;
       padding: 2rem;
       touch-action: pan-y;
+
+      /* Fade-in base */
+      opacity: 0;
+      transition: opacity 0.7s ease-in-out;
+    }
+    .slide.active-slide {
+      opacity: 1;
     }
     .slide:nth-child(1) { background: linear-gradient(to bottom, #fcefee, #fffaf8); }
     .slide:nth-child(2) { background: #fffaf8; }
@@ -101,18 +108,31 @@
       border-radius: 50%;
       background: #d4a5a5;
       opacity: 0.5;
+      cursor: pointer;
     }
     .dot.active {
       opacity: 1;
       background: #8b4c4c;
     }
 
+    /* Smaller screen tweaks */
     @media (max-width: 600px) {
+      .slide {
+        padding: 1rem;
+      }
       .title {
         font-size: 1.5rem;
       }
       .subtitle {
         font-size: 0.9rem;
+      }
+      .timeline {
+        max-width: 100%;
+        padding-left: 0.5rem;
+        border-left: 3px solid #d4a5a5;
+      }
+      .event {
+        margin: 1.5rem 0;
       }
       .event h3 {
         font-size: 1.1rem;
@@ -132,7 +152,7 @@
     <div class="slider" id="slider">
       <div class="slide">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Bow_icon.svg/512px-Bow_icon.svg.png" alt="Bow" class="bow" />
-        <div class="title">[Bride's Name] & [Groom's Name]</div>
+        <div class="title">[Bride's Name] &amp; [Groom's Name]</div>
         <div class="subtitle">A Journey of Love</div>
       </div>
       <div class="slide">
@@ -171,7 +191,7 @@
           <h2>Thank You</h2>
           <p>Thank you for being part of our story.</p>
           <p>With love,</p>
-          <p><strong>[Bride's Name] & [Groom's Name]</strong></p>
+          <p><strong>[Bride's Name] &amp; [Groom's Name]</strong></p>
         </div>
       </div>
     </div>
@@ -190,14 +210,30 @@
       dot.classList.add('dot');
       if (i === 0) dot.classList.add('active');
       dotsContainer.appendChild(dot);
+
+      // Add click support to dots
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        updateSlide();
+      });
     }
     const dots = document.querySelectorAll('.dot');
 
     function updateSlide() {
       slider.style.transform = `translateX(-${currentIndex * 100}vw)`;
+
       dots.forEach(dot => dot.classList.remove('active'));
       dots[currentIndex].classList.add('active');
+
+      // Remove active-slide class from all slides first
+      [...slider.children].forEach(slide => slide.classList.remove('active-slide'));
+
+      // Add active-slide class to current slide for fade-in
+      slider.children[currentIndex].classList.add('active-slide');
     }
+
+    // Initialize first slide fade-in
+    slider.children[0].classList.add('active-slide');
 
     function navigate(direction) {
       currentIndex += direction;
