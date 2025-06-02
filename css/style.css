@@ -11,10 +11,10 @@ body {
 
 .card-stack {
   position: relative;
-  width: 80vw;      /* 80% of viewport width */
-  max-width: 500px; /* max width */
-  height: 90vh;     /* 90% of viewport height */
-  max-height: 750px; /* max height */
+  width: 90vw;         /* nearly full width */
+  max-width: 1000px;   /* double previous 500px */
+  height: 95vh;        /* nearly full height */
+  max-height: 1500px;  /* double previous 750px */
   margin: auto;
 }
 
@@ -34,6 +34,11 @@ body {
   touch-action: none;
   user-select: none;
   text-align: center;
+}
+.bow {
+  width: 80vw;          /* scale bow too */
+  max-width: 440px;     /* double 220px */
+  margin-bottom: 24px;
 }
 
 
