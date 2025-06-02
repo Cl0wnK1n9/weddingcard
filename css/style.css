@@ -11,8 +11,11 @@ body {
 
 .card-stack {
   position: relative;
-  width: 400px;
-  height: 600px;
+  width: 80vw;      /* 80% of viewport width */
+  max-width: 500px; /* max width */
+  height: 90vh;     /* 90% of viewport height */
+  max-height: 750px; /* max height */
+  margin: auto;
 }
 
 .card {
@@ -33,10 +36,13 @@ body {
   text-align: center;
 }
 
+
 .bow {
-  width: 180px;
+  width: 40vw;     /* 40% of viewport width */
+  max-width: 220px;
   margin-bottom: 24px;
 }
+
 
 .content h2 {
   font-size: 26px;
