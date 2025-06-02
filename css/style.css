@@ -1,21 +1,19 @@
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #ffc0cb;
+html, body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  overflow: hidden;
+  padding: 0;
+  height: 100%;
+  background-color: pink; /* optional for full pink background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-stack {
   position: relative;
-  width: 90vw;         /* nearly full width */
-  max-width: 1000px;   /* double previous 500px */
-  height: 95vh;        /* nearly full height */
-  max-height: 1500px;  /* double previous 750px */
-  margin: auto;
+  width: 95vw;
+  height: 95vh;
+  max-width: 1000px;
+  max-height: 1500px;
 }
 
 .card {
@@ -35,19 +33,12 @@ body {
   user-select: none;
   text-align: center;
 }
-.bow {
-  width: 80vw;          /* scale bow too */
-  max-width: 440px;     /* double 220px */
-  margin-bottom: 24px;
-}
-
 
 .bow {
-  width: 40vw;     /* 40% of viewport width */
-  max-width: 220px;
+  width: 80vw;
+  max-width: 440px;
   margin-bottom: 24px;
 }
-
 
 .content h2 {
   font-size: 26px;
@@ -85,3 +76,18 @@ body {
     opacity: 0;
   }
 }
+
+@media (max-width: 600px) {
+  .card-stack {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+  }
+
+  .bow {
+    width: 90vw;
+    max-width: none;
+  }
+}
+
