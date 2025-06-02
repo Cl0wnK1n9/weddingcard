@@ -1,298 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A Journey of Love</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Inter', serif;
-      background: #fffaf8;
-      color: #4b2e2e;
-      overflow: hidden;
-    }
-    .slider-wrapper {
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-    .slider {
-      display: flex;
-      width: 400vw;
-      height: 100%;
-      transition: transform 0.5s ease-in-out;
-    }
-    .slide {
-      width: 100vw;
-      height: 100vh;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      touch-action: pan-y;
-
-      /* Fade-in base */
-      opacity: 0;
-      transition: opacity 0.7s ease-in-out;
-    }
-    .slide.active-slide {
-      opacity: 1;
-    }
-    .slide:nth-child(1) { background: linear-gradient(to bottom, #fcefee, #fffaf8); }
-    .slide:nth-child(2) { background: #fffaf8; }
-    .slide:nth-child(3) { background: #fff2f2; }
-    .slide:nth-child(4) { background: #fcefee; }
-
-    .bow {
-      width: 80px;
-      margin-bottom: 1rem;
-    }
-    .title {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    .subtitle {
-      font-size: 1rem;
-      font-style: italic;
-    }
-    .timeline {
-      border-left: 4px solid #d4a5a5;
-      padding-left: 1rem;
-      max-width: 600px;
-    }
-    .event {
-      margin: 2rem 0;
-    }
-    .event h3 {
-      margin-bottom: 0.3rem;
-      color: #8b4c4c;
-    }
-    .event p {
-      margin: 0;
-    }
-    .details, .thankyou {
-      text-align: center;
-    }
-    .rsvp-button {
-      background: #d4a5a5;
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 30px;
-      font-size: 1rem;
-      margin-top: 1rem;
-      cursor: pointer;
-    }
-    .rsvp-button:hover {
-      background: #b37777;
-    }
-
-    .dots {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-    }
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #d4a5a5;
-      opacity: 0.5;
-      cursor: pointer;
-    }
-    .dot.active {
-      opacity: 1;
-      background: #8b4c4c;
-    }
-
-    /* Smaller screen tweaks */
-    @media (max-width: 600px) {
-      .slide {
-        padding: 1rem;
-      }
-      .title {
-        font-size: 1.5rem;
-      }
-      .subtitle {
-        font-size: 0.9rem;
-      }
-      .timeline {
-        max-width: 100%;
-        padding-left: 0.5rem;
-        border-left: 3px solid #d4a5a5;
-      }
-      .event {
-        margin: 1.5rem 0;
-      }
-      .event h3 {
-        font-size: 1.1rem;
-      }
-      .event p {
-        font-size: 0.95rem;
-      }
-      .rsvp-button {
-        width: 100%;
-        font-size: 1rem;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Wedding Swipe Card</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="slider-wrapper" id="sliderWrapper">
-    <div class="slider" id="slider">
-      <div class="slide">
-        <img src="bow-tie-svgrepo-com.svg" alt="Bow" class="bow" />
-        <div class="title">Đỗ Mạnh Dũng &amp; Hoàng Tú Anh</div>
-        <div class="subtitle">A Journey of Love</div>
-      </div>
-      <div class="slide">
-        <h2>A Journey of Love</h2>
-        <div class="timeline">
-          <div class="event">
-            <h3>📍 When We Met</h3>
-            <p>A casual moment that changed everything.</p>
-          </div>
-          <div class="event">
-            <h3>💌 First Date</h3>
-            <p>Nervous laughs and unforgettable memories.</p>
-          </div>
-          <div class="event">
-            <h3>🌅 First Trip Together</h3>
-            <p>Adventures that brought us closer.</p>
-          </div>
-          <div class="event">
-            <h3>💍 The Proposal</h3>
-            <p>A moment we'll cherish forever.</p>
-          </div>
-        </div>
-      </div>
-      <div class="slide">
-        <div class="details">
-          <h2>🎀 The Wedding</h2>
-          <p>Date: 1/11/2025</p>
-          <p>Location: Trống Đồng Trần Đăng Ninh 72 Trần Đăng Ninh, Cầu Giấy, Hà Nội.</p>
-          <p>Time: 11h00 </p>
-          <button class="rsvp-button">RSVP</button>
-        </div>
-      </div>
-      <div class="slide">
-        <div class="thankyou">
-          <h2>Thank You</h2>
-          <p>Thank you for being part of our story.</p>
-          <p>With love,</p>
-          <p><strong>Đỗ Mạnh Dũng &amp; Hoàng Tú Anh</strong></p>
-        </div>
+  <div class="card-stack">
+    <div class="card">
+      <img src="resource/pink_pixel_bow.jpeg" alt="Big Bow" class="bow">
+      <div class="content">
+        <h2>You're Invited!</h2>
+        <p>Anna & John's Wedding</p>
       </div>
     </div>
-    <div class="dots" id="dots"></div>
+    <div class="card">
+      <img src="resource/pink_pixel_bow.jpeg" alt="Big Bow" class="bow">
+      <div class="content">
+        <h2>Save the Date</h2>
+        <p>12th December, 2025</p>
+      </div>
+    </div>
   </div>
 
-  <script>
-    let currentIndex = 0;
-    const slider = document.getElementById('slider');
-    const wrapper = document.getElementById('sliderWrapper');
-    const totalSlides = slider.children.length;
-    const dotsContainer = document.getElementById('dots');
+  <!-- ❤️ Heart container -->
+  <div class="heart-container"></div>
 
-    for (let i = 0; i < totalSlides; i++) {
-      const dot = document.createElement('div');
-      dot.classList.add('dot');
-      if (i === 0) dot.classList.add('active');
-      dotsContainer.appendChild(dot);
-
-      // Add click support to dots
-      dot.addEventListener('click', () => {
-        currentIndex = i;
-        updateSlide();
-      });
-    }
-    const dots = document.querySelectorAll('.dot');
-
-    function updateSlide() {
-      slider.style.transform = `translateX(-${currentIndex * 100}vw)`;
-
-      dots.forEach(dot => dot.classList.remove('active'));
-      dots[currentIndex].classList.add('active');
-
-      // Remove active-slide class from all slides first
-      [...slider.children].forEach(slide => slide.classList.remove('active-slide'));
-
-      // Add active-slide class to current slide for fade-in
-      slider.children[currentIndex].classList.add('active-slide');
-    }
-
-    // Initialize first slide fade-in
-    slider.children[0].classList.add('active-slide');
-
-    function navigate(direction) {
-      currentIndex += direction;
-
-      // Prevent going past first or last slide
-      if (currentIndex < 0) currentIndex = 0;
-      if (currentIndex >= totalSlides) currentIndex = totalSlides - 1;
-
-      updateSlide();
-    }
-
-    // Touch support
-    let startX = 0;
-    let startY = 0;
-    let isSwiping = false;
-
-    wrapper.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-      isSwiping = true;
-    });
-
-    wrapper.addEventListener('touchend', (e) => {
-      if (!isSwiping) return;
-      const endX = e.changedTouches[0].clientX;
-      const endY = e.changedTouches[0].clientY;
-      const deltaX = endX - startX;
-      const deltaY = endY - startY;
-
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-        if (deltaX > 0) {
-          navigate(-1);
-        } else {
-          navigate(1);
-        }
-      }
-      isSwiping = false;
-    });
-
-    // Mouse drag support
-    let isDragging = false;
-    let mouseStartX = 0;
-
-    wrapper.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      mouseStartX = e.clientX;
-    });
-
-    wrapper.addEventListener('mouseup', (e) => {
-      if (!isDragging) return;
-      const deltaX = e.clientX - mouseStartX;
-      if (Math.abs(deltaX) > 50) {
-        if (deltaX > 0) {
-          navigate(-1);
-        } else {
-          navigate(1);
-        }
-      }
-      isDragging = false;
-    });
-  </script>
+  <script src="js/index.js"></script>
 </body>
 </html>
