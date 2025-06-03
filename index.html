@@ -139,8 +139,8 @@
             document.getElementById('nameInputScreen').style.display = 'flex';
             window.selectedCharacter = idx;
             // Show chosen character image
-            var imgSrc = idx === 0 ? 'resources/groom.png' : 'resources/bride.png';
-            var altText = idx === 0 ? 'Bride' : 'Groom';
+            var imgSrc = idx === 0 ? 'resources/groom.PNG' : 'resources/bride.PNG';
+            var altText = idx === 0 ? 'Bride': 'Groom';
             document.getElementById('chosenCharImg').innerHTML = `<img src="${imgSrc}" alt="${altText}" width="96" height="96" style="image-rendering:pixelated;display:block;margin:0 auto;">`;
         }
         function submitCharName() {
