@@ -1,31 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Wedding Swipe Card</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Character - Pixel Y2K</title>
+    <!-- Pixel font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff0fa 0%, #ffb6e6 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .title {
+            color: #ff69b4;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 0 #fff, 4px 4px 0 #ff69b4;
+            letter-spacing: 2px;
+            text-align: center;
+            width: 100%;
+        }
+        .character-select {
+            display: flex;
+            gap: 3rem;
+        }
+        .character {
+            background: #fff;
+            border: 4px solid #ff69b4;
+            border-radius: 16px;
+            box-shadow: 0 0 16px #ffb6e6, 0 0 0 8px #fff0fa;
+            padding: 2rem 1.5rem 1rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .character:hover, .character.selected {
+            transform: scale(1.08) rotate(-2deg);
+            box-shadow: 0 0 32px #ff69b4, 0 0 0 8px #fff0fa;
+            border-color: #fff;
+        }
+        .pixel-art {
+            width: 96px;
+            height: 96px;
+            image-rendering: pixelated;
+            margin-bottom: 1rem;
+            background: #ffe4f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ff69b4;
+        }
+        .char-name {
+            color: #ff69b4;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            text-shadow: 1px 1px 0 #fff;
+        }
+        .select-btn {
+            margin-top: 1rem;
+            background: #ff69b4;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #ffb6e6;
+            letter-spacing: 1px;
+            transition: background 0.15s, color 0.15s, border 0.15s;
+        }
+        .select-btn:hover {
+            background: #fff;
+            color: #ff69b4;
+            border: 2px solid #ff69b4;
+        }
+        #nameInputScreen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        #charNameInput {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border: 2px solid #ff69b4;
+            border-radius: 8px;
+            outline: none;
+            margin-bottom: 1.5rem;
+        }
+    </style>
 </head>
 <body>
-  <div class="card-stack">
-    <div class="card">
-      <img src="resource/pink_pixel_bow.jpeg" alt="Big Bow" class="bow">
-      <div class="content">
-        <h2>You're Invited!</h2>
-        <p>Anna & John's Wedding</p>
-      </div>
+    <img src="resources/pngegg.png" alt="Pixel Bow" style="display:block;margin:0 auto 1.5rem auto;width:200px;height:auto;image-rendering:pixelated;background:none;border:none;box-shadow:none;">
+    <div class="title" style="text-align:center; width:100%;">CHOOSE YOUR CHARACTER</div>
+    <div class="character-select" id="characterSelect">
+        <div class="character" onclick="selectCharacter(0)">
+            <div class="pixel-art">
+                <img src="resources/groom.png" alt="Bride" width="80" height="80" style="image-rendering: pixelated;">
+            </div>
+            <div class="char-name">BRIDE</div>
+            <button class="select-btn" onclick="event.stopPropagation(); selectCharacter(0); showNameInput(0);">SELECT</button>
+        </div>
+        <div class="character" onclick="selectCharacter(1)">
+            <div class="pixel-art">
+                <img src="resources/bride.png" alt="Groom" width="80" height="80" style="image-rendering: pixelated;">
+            </div>
+            <div class="char-name">GROOM</div>
+            <button class="select-btn" onclick="event.stopPropagation(); selectCharacter(1); showNameInput(1);">SELECT</button>
+        </div>
     </div>
-    <div class="card">
-      <img src="resource/pink_pixel_bow.jpeg" alt="Big Bow" class="bow">
-      <div class="content">
-        <h2>Save the Date</h2>
-        <p>12th December, 2025</p>
-      </div>
+    <div id="nameInputScreen">
+        <div id="chosenCharImg" style="margin-bottom:1.5rem;"></div>
+        <input id="charNameInput" type="text" maxlength="16" placeholder="Type name here...">
+        <div style="display:flex; gap:1rem;">
+            <button class="select-btn" onclick="goBackToCharacterSelect()" style="background:#fff;color:#ff69b4;border:2px solid #ff69b4;">BACK</button>
+            <button class="select-btn" onclick="submitCharName()">CONTINUE</button>
+        </div>
     </div>
-  </div>
-
-  <!-- ❤️ Heart container -->
-  <div class="heart-container"></div>
-
-  <script src="js/index.js"></script>
+    <script>
+        function selectCharacter(idx) {
+            document.querySelectorAll('.character').forEach((el, i) => {
+                el.classList.toggle('selected', i === idx);
+            });
+            // You can add more logic here for what happens after selection
+        }
+        function showNameInput(idx) {
+            document.getElementById('characterSelect').style.display = 'none';
+            document.getElementById('nameInputScreen').style.display = 'flex';
+            window.selectedCharacter = idx;
+            // Show chosen character image
+            var imgSrc = idx === 0 ? 'resources/groom.png' : 'resources/bride.png';
+            var altText = idx === 0 ? 'Bride' : 'Groom';
+            document.getElementById('chosenCharImg').innerHTML = `<img src="${imgSrc}" alt="${altText}" width="96" height="96" style="image-rendering:pixelated;display:block;margin:0 auto;">`;
+        }
+        function submitCharName() {
+            const name = document.getElementById('charNameInput').value.trim();
+            if (!name) {
+                alert("Please enter a name.");
+                return;
+            }
+            // You can add logic here to proceed to the next step or screen
+            alert(`Character selected: ${window.selectedCharacter === 0 ? 'Bride' : 'Groom'}\nName: ${name}`);
+        }
+        function goBackToCharacterSelect() {
+            document.getElementById('nameInputScreen').style.display = 'none';
+            document.getElementById('characterSelect').style.display = 'flex';
+            document.getElementById('charNameInput').value = '';
+        }
+    </script>
 </body>
 </html>
