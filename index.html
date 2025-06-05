@@ -16,6 +16,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            box-sizing: border-box;
         }
         .title {
             color: #ff69b4;
@@ -29,6 +30,10 @@
         .character-select {
             display: flex;
             gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 700px;
         }
         .character {
             background: #fff;
@@ -41,6 +46,9 @@
             align-items: center;
             cursor: pointer;
             transition: transform 0.15s, box-shadow 0.15s;
+            min-width: 180px;
+            max-width: 90vw;
+            box-sizing: border-box;
         }
         .character:hover, .character.selected {
             transform: scale(1.08) rotate(-2deg);
@@ -64,7 +72,7 @@
             margin-top: 0.5rem;
             text-shadow: 1px 1px 0 #fff;
         }
-        .select-btn {
+        .select-btn, .level-btn {
             margin-top: 1rem;
             background: #ff69b4;
             color: #fff;
@@ -77,6 +85,14 @@
             box-shadow: 0 2px 8px #ffb6e6;
             letter-spacing: 1px;
             transition: background 0.15s, color 0.15s, border 0.15s;
+            width: 100%;
+            min-width: 120px;
+            max-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
         .select-btn:hover {
             background: #fff;
@@ -98,22 +114,64 @@
             outline: none;
             margin-bottom: 1.5rem;
         }
+        @media (max-width: 600px) {
+            .title {
+                font-size: 1.2rem;
+            }
+            .character-select {
+                gap: 1rem;
+                max-width: 98vw;
+            }
+            .character {
+                padding: 1rem 0.5rem 0.5rem 0.5rem;
+                min-width: 120px;
+            }
+            .pixel-art {
+                width: 64px;
+                height: 64px;
+            }
+            .select-btn, .level-btn {
+                font-size: 0.7rem;
+                padding: 0.5rem 0.5rem;
+                min-width: 80px;
+            }
+        }
+        @media (max-width: 400px) {
+            .title {
+                font-size: 0.9rem;
+            }
+            .character {
+                min-width: 90px;
+            }
+            .pixel-art {
+                width: 40px;
+                height: 40px;
+            }
+            .select-btn, .level-btn {
+                font-size: 0.6rem;
+            }
+        }
+        img[alt="Pixel Bow"] {
+            max-width: 60vw;
+            width: 200px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
     <img src="resources/pngegg.png" alt="Pixel Bow" style="display:block;margin:0 auto 1.5rem auto;width:200px;height:auto;image-rendering:pixelated;background:none;border:none;box-shadow:none;">
-    <div class="title" style="text-align:center; width:100%;">CHOOSE YOUR CHARACTER</div>
+    <div class="title" id="mainTitle" style="text-align:center; width:100%;">You are</div>
     <div class="character-select" id="characterSelect">
         <div class="character" onclick="selectCharacter(0)">
             <div class="pixel-art">
-                <img src="resources/groom.PNG" alt="Bride" width="80" height="80" style="image-rendering: pixelated;">
+                <img src="resources/groom.png" alt="Bride" width="80" height="80" style="image-rendering: pixelated;">
             </div>
             <div class="char-name">BRIDE'S FRIEND</div>
             <button class="select-btn" onclick="event.stopPropagation(); selectCharacter(0); showNameInput(0);">SELECT</button>
         </div>
         <div class="character" onclick="selectCharacter(1)">
             <div class="pixel-art">
-                <img src="resources/bride.PNG" alt="Groom" width="80" height="80" style="image-rendering: pixelated;">
+                <img src="resources/bride.png" alt="Groom" width="80" height="80" style="image-rendering: pixelated;">
             </div>
             <div class="char-name">GROOM'S FRIEND</div>
             <button class="select-btn" onclick="event.stopPropagation(); selectCharacter(1); showNameInput(1);">SELECT</button>
@@ -125,6 +183,16 @@
         <div style="display:flex; gap:1rem;">
             <button class="select-btn" onclick="goBackToCharacterSelect()" style="background:#fff;color:#ff69b4;border:2px solid #ff69b4;">BACK</button>
             <button class="select-btn" onclick="submitCharName()">CONTINUE</button>
+        </div>
+    </div>
+    <div id="weddingDetailScreen" style="display:none; flex-direction:column; align-items:center; margin-top:2rem;">
+        <div class="title" style="font-size:1.5rem; margin-bottom:1.5rem;">Trong Dong Palace</div>
+        <div style="color:#ff69b4; font-size:1.1rem; margin-bottom:1rem; text-align:center; font-family:'Press Start 2P', cursive;">
+            <div style="margin-bottom:0.5rem;">Time: 18:00, 1 July 2025</div>
+            <div style="margin-bottom:0.5rem;">Location: Grand Ballroom, Pink Palace Hotel</div>
+        </div>
+        <div style="background:#fff; border:4px solid #ff69b4; border-radius:16px; padding:1.5rem; display:flex; flex-direction:column; align-items:center; box-shadow:0 0 16px #ffb6e6; width:200px; height:200px; justify-content:center;">
+            <img id="qrCodeImg" src="resources/BrideQR.jpg" alt="Wedding QR Code" style="max-width:100%; max-height:100%; width:auto; height:auto; display:block; margin:0 auto; image-rendering:pixelated;">
         </div>
     </div>
     <script>
@@ -139,8 +207,8 @@
             document.getElementById('nameInputScreen').style.display = 'flex';
             window.selectedCharacter = idx;
             // Show chosen character image
-            var imgSrc = idx === 0 ? 'resources/groom.PNG' : 'resources/bride.PNG';
-            var altText = idx === 0 ? 'Bride': 'Groom';
+            var imgSrc = idx === 0 ? 'resources/groom.png' : 'resources/bride.png';
+            var altText = idx === 0 ? 'Bride' : 'Groom';
             document.getElementById('chosenCharImg').innerHTML = `<img src="${imgSrc}" alt="${altText}" width="96" height="96" style="image-rendering:pixelated;display:block;margin:0 auto;">`;
         }
         function submitCharName() {
@@ -149,8 +217,17 @@
                 alert("Please enter a name.");
                 return;
             }
-            // You can add logic here to proceed to the next step or screen
-            alert(`Character selected: ${window.selectedCharacter === 0 ? 'Bride' : 'Groom'}\nName: ${name}`);
+            window.selectedCharName = name;
+            document.getElementById('nameInputScreen').style.display = 'none';
+            document.getElementById('weddingDetailScreen').style.display = 'flex';
+            document.getElementById('mainTitle').textContent = 'Wedding Details';
+            // Show correct QR code based on character
+            var qrImg = document.getElementById('qrCodeImg');
+            if (window.selectedCharacter === 0) {
+                qrImg.src = 'resources/BrideQR.jpg';
+            } else {
+                qrImg.src = 'resources/GroomQR.jpg';
+            }
         }
         function goBackToCharacterSelect() {
             document.getElementById('nameInputScreen').style.display = 'none';
