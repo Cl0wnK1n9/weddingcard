@@ -134,6 +134,10 @@
                 font-size: 0.7rem;
                 padding: 0.5rem 0.5rem;
                 min-width: 80px;
+                max-width: 90px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
         @media (max-width: 400px) {
@@ -155,6 +159,60 @@
             max-width: 60vw;
             width: 200px;
             height: auto;
+        }
+        /* Love Story Carousel Styles */
+        #loveStoryCarousel {
+            position: relative;
+            width: 320px;
+            max-width: 90vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        #loveStoryCard {
+            background: #fff;
+            border: 2px solid #ff69b4;
+            border-radius: 16px;
+            box-shadow: 0 0 8px #ffb6e6;
+            color: #ff69b4;
+            font-size: 1.1rem;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            min-height: 120px;
+            min-width: 220px;
+            max-width: 280px;
+            padding: 1.5rem 1rem;
+            margin: 0 2.5rem;
+        }
+        #loveStoryIndicators {
+            margin: 1rem 0 0 0;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        /* Arrow buttons for carousel */
+        .arrow-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ff69b4;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            min-width: unset;
+            font-size: 1.5rem;
+            padding: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+        #loveStoryPrev {
+            left: -2.5rem;
+        }
+        #loveStoryNext {
+            right: -2.5rem;
         }
     </style>
 </head>
@@ -185,6 +243,33 @@
             <button class="select-btn" onclick="submitCharName()">CONTINUE</button>
         </div>
     </div>
+    <!-- Love Story Screen with Level Selection -->
+    <div id="loveStoryScreen" style="display:none; flex-direction:column; align-items:center; margin-top:2rem; width:100%;">
+        <div id="loveStoryLevelSelect" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+            <div class="title" style="font-size:1.3rem; margin-bottom:1.5rem;">Choose Your Love Story Level</div>
+            <div style="display:flex; flex-direction:column; gap:1rem; justify-content:center; align-items:center; margin-bottom:2rem; width:100%;">
+                <button class="level-btn select-btn" onclick="selectLoveStoryLevel(0)" style="width:220px;max-width:90vw;">Level 1</button>
+                <button class="level-btn select-btn" onclick="selectLoveStoryLevel(1)" style="width:220px;max-width:90vw;">Level 2</button>
+                <button class="level-btn select-btn" onclick="selectDestinationLevel()" style="width:220px;max-width:90vw;font-size:0.8rem;">Destination</button>
+            </div>
+        </div>
+        <div id="loveStoryCarouselWrap" style="display:none; flex-direction:column; align-items:center; width:100%;">
+            <div class="title" style="font-size:1.5rem; margin-bottom:1.5rem;">Our Love Story</div>
+            <div id="loveStoryCarousel" style="position:relative; width:320px; max-width:90vw; display:flex; align-items:center; justify-content:center;">
+                <button id="loveStoryPrev" class="select-btn" style="position:absolute; left:-2.5rem; z-index:2; width:2.5rem; height:2.5rem; min-width:unset; font-size:1.5rem; padding:0;" onclick="showLoveStoryCard(currentLoveStoryCard-1)">&lt;</button>
+                <div id="loveStoryCard" style="background:#fff; border:2px solid #ff69b4; border-radius:16px; box-shadow:0 0 8px #ffb6e6; color:#ff69b4; font-size:1.1rem; text-align:center; font-family:'Press Start 2P', cursive; min-height:120px; min-width:220px; max-width:280px; padding:1.5rem 1rem; margin:0 2.5rem;">
+                    <!-- Card content will be injected here -->
+                </div>
+                <button id="loveStoryNext" class="select-btn" style="position:absolute; right:-2.5rem; z-index:2; width:2.5rem; height:2.5rem; min-width:unset; font-size:1.5rem; padding:0;" onclick="showLoveStoryCard(currentLoveStoryCard+1)">&gt;</button>
+            </div>
+            <div id="loveStoryIndicators" style="margin:1rem 0 0 0; display:flex; gap:0.5rem; justify-content:center;">
+                <!-- Dots will be injected here -->
+            </div>
+            <!-- Change CONTINUE to BACK -->
+            <button class="select-btn" id="loveStoryContinueBtn" onclick="backToLoveStoryLevelSelect()" style="margin-top:1.5rem;background:#fff;color:#ff69b4;border:2px solid #ff69b4;">BACK</button>
+            <button class="select-btn" onclick="backToLoveStoryLevelSelect()" style="margin-top:0.5rem;background:#fff;color:#ff69b4;border:2px solid #ff69b4;display:none;">BACK</button>
+        </div>
+    </div>
     <div id="weddingDetailScreen" style="display:none; flex-direction:column; align-items:center; margin-top:2rem;">
         <div class="title" style="font-size:1.5rem; margin-bottom:1.5rem;">Trong Dong Palace</div>
         <div style="color:#ff69b4; font-size:1.1rem; margin-bottom:1rem; text-align:center; font-family:'Press Start 2P', cursive;">
@@ -194,6 +279,8 @@
         <div style="background:#fff; border:4px solid #ff69b4; border-radius:16px; padding:1.5rem; display:flex; flex-direction:column; align-items:center; box-shadow:0 0 16px #ffb6e6; width:200px; height:200px; justify-content:center;">
             <img id="qrCodeImg" src="resources/BrideQR.jpg" alt="Wedding QR Code" style="max-width:100%; max-height:100%; width:auto; height:auto; display:block; margin:0 auto; image-rendering:pixelated;">
         </div>
+        <!-- Add BACK button here -->
+        <button class="select-btn" onclick="goBackToLoveStoryLevelSelect()" style="margin-top:1.5rem;background:#fff;color:#ff69b4;border:2px solid #ff69b4;">BACK</button>
     </div>
     <script>
         function selectCharacter(idx) {
@@ -219,6 +306,45 @@
             }
             window.selectedCharName = name;
             document.getElementById('nameInputScreen').style.display = 'none';
+            document.getElementById('loveStoryScreen').style.display = 'flex';
+            document.getElementById('mainTitle').textContent = 'Love Story';
+            // Show level select first
+            document.getElementById('loveStoryLevelSelect').style.display = 'flex';
+            document.getElementById('loveStoryCarouselWrap').style.display = 'none';
+        }
+        // New function to select love story level
+        // Love Story Cards Data for each level
+        const loveStoryLevels = [
+            [
+                "Once upon a time, two hearts met and began a journey filled with laughter, adventures, and endless love.",
+                "Through every up and down, our bond grew stronger, and every moment became a cherished memory.",
+                "Now, we invite you to celebrate the next chapter of our story together!"
+            ],
+            [
+                "Level 2: We met by chance, but our love was destiny.",
+                "From shy glances to shared dreams, our story blossomed.",
+                "Join us as we celebrate a love that's truly meant to be!"
+            ],
+            [
+                "Destination: Our love has taken us to new places, near and far.",
+                "Every journey together is an adventure, every destination a memory.",
+                "Let's make the next stop unforgettable—see you at the wedding!"
+            ]
+        ];
+        let currentLoveStoryLevel = 0;
+        let currentLoveStoryCard = 0;
+
+        function selectLoveStoryLevel(levelIdx) {
+            currentLoveStoryLevel = levelIdx;
+            currentLoveStoryCard = 0;
+            document.getElementById('loveStoryLevelSelect').style.display = 'none';
+            document.getElementById('loveStoryCarouselWrap').style.display = 'flex';
+            renderLoveStoryCard(0);
+        }
+        // Add this function for Destination button
+        function selectDestinationLevel() {
+            document.getElementById('loveStoryLevelSelect').style.display = 'none';
+            document.getElementById('loveStoryCarouselWrap').style.display = 'none';
             document.getElementById('weddingDetailScreen').style.display = 'flex';
             document.getElementById('mainTitle').textContent = 'Wedding Details';
             // Show correct QR code based on character
@@ -229,10 +355,67 @@
                 qrImg.src = 'resources/GroomQR.jpg';
             }
         }
+        function backToLoveStoryLevelSelect() {
+            document.getElementById('loveStoryCarouselWrap').style.display = 'none';
+            document.getElementById('loveStoryLevelSelect').style.display = 'flex';
+        }
+        function renderLoveStoryCard(idx) {
+            const cards = loveStoryLevels[currentLoveStoryLevel];
+            if (idx < 0) idx = 0;
+            if (idx > cards.length - 1) idx = cards.length - 1;
+            currentLoveStoryCard = idx;
+            document.getElementById('loveStoryCard').innerHTML = cards[idx];
+            // Update indicators
+            const indicators = cards.map((_, i) =>
+                `<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${i===idx?'#ff69b4':'#ffe4f7'};border:1px solid #ff69b4;"></span>`
+            ).join('');
+            document.getElementById('loveStoryIndicators').innerHTML = indicators;
+            // Enable/disable arrows
+            document.getElementById('loveStoryPrev').disabled = idx === 0;
+            document.getElementById('loveStoryNext').disabled = idx === cards.length - 1;
+            // Show BACK only on any card (always visible)
+            document.getElementById('loveStoryContinueBtn').style.display = 'block';
+        }
+        function showLoveStoryCard(idx) {
+            renderLoveStoryCard(idx);
+        }
+        // Touch swipe support
+        let touchStartX = null;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup Love Story carousel (default to level select)
+            document.getElementById('loveStoryLevelSelect').style.display = 'flex';
+            document.getElementById('loveStoryCarouselWrap').style.display = 'none';
+            const card = document.getElementById('loveStoryCard');
+            card.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
+            });
+            card.addEventListener('touchend', function(e) {
+                if (touchStartX === null) return;
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                if (Math.abs(dx) > 40) {
+                    const cards = loveStoryLevels[currentLoveStoryLevel];
+                    if (dx < 0 && currentLoveStoryCard < cards.length - 1) {
+                        showLoveStoryCard(currentLoveStoryCard + 1);
+                    } else if (dx > 0 && currentLoveStoryCard > 0) {
+                        showLoveStoryCard(currentLoveStoryCard - 1);
+                    }
+                }
+                touchStartX = null;
+            });
+        });
+        // Replace goBackToLoveStory to goBackToLoveStoryLevelSelect for QR screen BACK button
+        function goBackToLoveStoryLevelSelect() {
+            document.getElementById('weddingDetailScreen').style.display = 'none';
+            document.getElementById('loveStoryScreen').style.display = 'flex';
+            document.getElementById('mainTitle').textContent = 'Love Story';
+            document.getElementById('loveStoryLevelSelect').style.display = 'flex';
+            document.getElementById('loveStoryCarouselWrap').style.display = 'none';
+        }
         function goBackToCharacterSelect() {
             document.getElementById('nameInputScreen').style.display = 'none';
             document.getElementById('characterSelect').style.display = 'flex';
             document.getElementById('charNameInput').value = '';
+            document.getElementById('mainTitle').textContent = 'You are';
         }
     </script>
 </body>
