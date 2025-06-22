@@ -214,9 +214,52 @@
         #loveStoryNext {
             right: -2.5rem;
         }
+        #musicBox {
+            position:fixed;
+            top:18px;
+            right:18px;
+            z-index:99;
+            background:#fff0fa;
+            border:2px solid #ff69b4;
+            border-radius:12px;
+            box-shadow:0 2px 8px #ffb6e6;
+            padding:0.5rem 1rem;
+            display:flex;
+            align-items:center;
+            gap:0.5rem;
+            min-width:140px;
+        }
+        #musicTitle.marquee {
+            display: inline-block;
+            position: relative;
+            max-width: 80px;
+            overflow: hidden;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+        #musicTitle.marquee span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee-move 6s linear infinite;
+        }
+        @keyframes marquee-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
     </style>
 </head>
 <body>
+    <!-- Music Box (top right) -->
+    <div id="musicBox" style="position:fixed;top:18px;right:18px;z-index:99;background:#fff0fa;border:2px solid #ff69b4;border-radius:12px;box-shadow:0 2px 8px #ffb6e6;padding:0.5rem 1rem;display:flex;align-items:center;gap:0.5rem;min-width:140px;">
+        <button id="musicPrev" title="Previous" style="background:none;border:none;color:#ff69b4;font-size:1.2rem;cursor:pointer;padding:0 0.3rem;">&lt;&lt;</button>
+        <button id="musicPlayPause" title="Play/Pause" style="background:none;border:none;color:#ff69b4;font-size:1.2rem;cursor:pointer;padding:0 0.3rem;">&#9658;</button>
+        <button id="musicNext" title="Next" style="background:none;border:none;color:#ff69b4;font-size:1.2rem;cursor:pointer;padding:0 0.3rem;">&gt;&gt;</button>
+        <input id="musicVolume" type="range" min="0" max="1" step="0.01" value="0.7" style="width:60px;vertical-align:middle;">
+        <audio id="musicAudio" style="display:none;" preload="auto"></audio>
+        <span id="musicTitle" style="font-size:0.7rem;color:#ff69b4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px;display:inline-block;position:relative;">
+            <!-- Song title will be set by JS -->
+        </span>
+    </div>
     <img src="resources/pngegg.png" alt="Pixel Bow" style="display:block;margin:0 auto 1.5rem auto;width:200px;height:auto;image-rendering:pixelated;background:none;border:none;box-shadow:none;">
     <div class="title" id="mainTitle" style="text-align:center; width:100%;">You are</div>
     <div class="character-select" id="characterSelect">
@@ -248,9 +291,9 @@
         <div id="loveStoryLevelSelect" style="display:flex; flex-direction:column; align-items:center; width:100%;">
             <div class="title" style="font-size:1.3rem; margin-bottom:1.5rem;">Choose Your Love Story Level</div>
             <div style="display:flex; flex-direction:column; gap:1rem; justify-content:center; align-items:center; margin-bottom:2rem; width:100%;">
-                <button class="level-btn select-btn" onclick="selectLoveStoryLevel(0)" style="width:220px;max-width:90vw;">Level 1</button>
-                <button class="level-btn select-btn" onclick="selectLoveStoryLevel(1)" style="width:220px;max-width:90vw;">Level 2</button>
-                <button class="level-btn select-btn" onclick="selectDestinationLevel()" style="width:220px;max-width:90vw;font-size:0.8rem;">Destination</button>
+                <button class="level-btn select-btn" onclick="selectLoveStoryLevel(0)" style="width:320px;max-width:98vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.75rem;">Swipe Right for Destiny</button>
+                <button class="level-btn select-btn" onclick="selectLoveStoryLevel(1)" style="width:320px;max-width:98vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.75rem;">Sealed With a Kiss</button>
+                <button class="level-btn select-btn" onclick="selectDestinationLevel()" style="width:320px;max-width:98vw;font-size:0.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">The Vow</button>
             </div>
         </div>
         <div id="loveStoryCarouselWrap" style="display:none; flex-direction:column; align-items:center; width:100%;">
@@ -417,6 +460,107 @@
             document.getElementById('charNameInput').value = '';
             document.getElementById('mainTitle').textContent = 'You are';
         }
+        // --- Music Box Logic ---
+        // List your mp4 music files here (relative to /resources/music/)
+        const musicFiles = [
+            "yeu5.mp3",
+            "xuanthi.mp3"
+            // Add more as needed
+        ];
+        const musicTitles = [
+            "Yêu 5 - Rhymastic",
+            "Xuân Thì - Hà Anh Tuấn"
+            // Add more as needed
+        ];
+        let currentMusicIdx = 0;
+        const audio = document.getElementById('musicAudio');
+        const prevBtn = document.getElementById('musicPrev');
+        const nextBtn = document.getElementById('musicNext');
+        const playPauseBtn = document.getElementById('musicPlayPause');
+        const musicTitle = document.getElementById('musicTitle');
+        const volumeBar = document.getElementById('musicVolume');
+        // Set default volume to 60%
+        volumeBar.value = 0.6;
+        audio.volume = 0.6;
+
+        function updatePlayPauseIcon() {
+            playPauseBtn.innerHTML = audio.paused ? "&#9658;" : "&#10073;&#10073;";
+        }
+
+        playPauseBtn.onclick = function() {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        };
+
+        audio.onplay = updatePlayPauseIcon;
+        audio.onpause = updatePlayPauseIcon;
+
+        function setMusicTitleMarquee(title) {
+            const el = musicTitle;
+            // Remove previous marquee
+            el.classList.remove('marquee');
+            el.innerHTML = '';
+            // Create a temporary span to measure width
+            const temp = document.createElement('span');
+            temp.style.visibility = 'hidden';
+            temp.style.position = 'absolute';
+            temp.style.whiteSpace = 'nowrap';
+            temp.textContent = title;
+            document.body.appendChild(temp);
+            const isOverflow = temp.offsetWidth > 80;
+            document.body.removeChild(temp);
+            if (isOverflow) {
+                el.classList.add('marquee');
+                el.innerHTML = `<span>${title}&nbsp;&nbsp;&nbsp;</span>`;
+            } else {
+                el.textContent = title;
+            }
+        }
+
+        function loadMusic(idx, autoplay = true) {
+            if (idx < 0) idx = musicFiles.length - 1;
+            if (idx >= musicFiles.length) idx = 0;
+            currentMusicIdx = idx;
+            audio.pause();
+            audio.currentTime = 0;
+            audio.src = "resources/music/" + musicFiles[idx];
+            setMusicTitleMarquee(musicTitles[idx] || musicFiles[idx]);
+            audio.load();
+            audio.volume = parseFloat(volumeBar.value);
+            if (autoplay) {
+                // Some browsers require play() to be called after load and user interaction
+                audio.play().catch(() => {});
+            }
+            updatePlayPauseIcon();
+        }
+        prevBtn.onclick = function() {
+            loadMusic(currentMusicIdx - 1);
+        };
+        nextBtn.onclick = function() {
+            loadMusic(currentMusicIdx + 1);
+        };
+        audio.onended = function() {
+            loadMusic(currentMusicIdx + 1);
+        };
+        // Volume bar logic
+        volumeBar.oninput = function() {
+            audio.volume = parseFloat(volumeBar.value);
+        };
+        // Set initial volume
+        audio.volume = parseFloat(volumeBar.value);
+
+        // Autoplay first song on load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMusic(0, true);
+            updatePlayPauseIcon();
+            // Auto click play button after page load (for browsers that require user interaction)
+            setTimeout(function() {
+                playPauseBtn.click();
+            }, 100);
+        });
     </script>
 </body>
 </html>
