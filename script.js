@@ -27,9 +27,7 @@ function updateCountdown() {
 function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
-        // Check if navbar is visible (screen width >= 768px)
-        const navbarOffset = window.innerWidth >= 768 ? 80 : 0;
-        const offsetTop = element.offsetTop - navbarOffset;
+        const offsetTop = element.offsetTop - 80; // Account for fixed navbar
         window.scrollTo({
             top: offsetTop,
             behavior: 'smooth'
@@ -408,7 +406,7 @@ class MusicPlayer {
         this.currentSongIndex = 0;
         this.isPlaying = false;
         this.isMinimized = false;
-        this.isHidden = false;
+        this.isHidden = true; // Start hidden
         this.playlistExpanded = false;
         
         // ========================== PLAYLIST CONFIGURATION ==========================
@@ -434,6 +432,7 @@ class MusicPlayer {
         this.loadSong(this.currentSongIndex);
         this.addEventListeners();
         this.updatePlaylistUI(); // Build playlist UI from configuration
+        this.initializeHiddenState(); // Start with music box hidden and add animation
     }
 
     initFloatingPlayer() {
@@ -569,6 +568,25 @@ class MusicPlayer {
         this.floatingBox.classList.remove('hidden');
         if (this.showMusicBtn) {
             this.showMusicBtn.classList.remove('visible');
+        }
+    }
+
+    initializeHiddenState() {
+        // Start with music box hidden and show button with animation
+        this.floatingBox.classList.add('hidden');
+        if (this.showMusicBtn) {
+            // Show button with entrance animation after a delay
+            setTimeout(() => {
+                this.showMusicBtn.classList.add('visible');
+                // Add attention animation after entrance
+                setTimeout(() => {
+                    this.showMusicBtn.classList.add('attention');
+                    // Remove attention animation after 10 seconds
+                    setTimeout(() => {
+                        this.showMusicBtn.classList.remove('attention');
+                    }, 10000);
+                }, 2000);
+            }, 3000); // Show after 3 seconds of page load
         }
     }
 

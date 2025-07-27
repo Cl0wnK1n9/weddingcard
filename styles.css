@@ -1154,6 +1154,46 @@ section h2 {
 
 .show-floating-music.visible {
     display: block;
+    animation: musicButtonEntrance 2s ease-out;
+}
+
+.show-floating-music.attention {
+    animation: pulseAttention 3s ease-in-out infinite;
+}
+
+/* Keyframes for music button animations */
+@keyframes musicButtonEntrance {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.3) rotate(-90deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes pulseAttention {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 5px 15px rgba(139, 75, 126, 0.4);
+    }
+    25% {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(139, 75, 126, 0.8);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(139, 75, 126, 0.6);
+    }
+    75% {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(139, 75, 126, 0.8);
+    }
 }
 
 /* Gift Section */
