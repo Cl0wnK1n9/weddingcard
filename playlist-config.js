@@ -15,35 +15,35 @@ const WEDDING_PLAYLIST = [
         title: "Perfect",
         artist: "Ed Sheeran",
         duration: "4:23",
-        image: "./images/covers/perfect-ed-sheeran.jpg", // LOCAL IMAGE - put in images/covers folder
+        image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE - put in images/covers folder
         src: "./music/perfect-ed-sheeran.mp3" // LOCAL FILE - put perfect-ed-sheeran.mp3 in music folder
     },
     {
         title: "All of Me",
         artist: "John Legend",
         duration: "4:29",
-        image: "./images/covers/all-of-me-john-legend.jpg", // LOCAL IMAGE
+        image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE
         src: "./music/all-of-me-john-legend.mp3" // LOCAL FILE
     },
     {
         title: "Thinking Out Loud",
         artist: "Ed Sheeran",
         duration: "4:41",
-        image: "./images/covers/thinking-out-loud.jpg", // LOCAL IMAGE
+        image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE
         src: "./music/thinking-out-loud.mp3" // LOCAL FILE
     },
     {
         title: "A Thousand Years",
         artist: "Christina Perri",
         duration: "4:45",
-        image: "./images/covers/a-thousand-years.jpg", // LOCAL IMAGE
+        image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE
         src: "./music/a-thousand-years.mp3" // LOCAL FILE
     },
     {
         title: "Can't Help Myself",
         artist: "Four Tops",
         duration: "2:57",
-        image: "./images/covers/cant-help-myself.jpg", // LOCAL IMAGE
+        image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE
         src: "./music/cant-help-myself.mp3" // LOCAL FILE
     },
     
@@ -71,51 +71,51 @@ const WEDDING_PLAYLIST = [
         title: "Make You Feel My Love",
         artist: "Adele",
         duration: "3:32",
-        image: "./images/covers/make-you-feel-my-love.jpg", // LOCAL IMAGE
+        image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE
         src: "./music/make-you-feel-my-love.mp3" // LOCAL FILE
     },
     {
         title: "At Last",
         artist: "Etta James",
         duration: "3:01",
-        image: "./images/covers/at-last.jpg", // LOCAL IMAGE
+        image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE
         src: "./music/at-last.mp3" // LOCAL FILE
     },
     {
         title: "Marry Me",
         artist: "Train",
         duration: "3:58",
-        image: "./images/covers/marry-me-train.jpg", // LOCAL IMAGE
+        image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE
         src: "./music/marry-me-train.mp3" // LOCAL FILE
     },
     {
         title: "Better Days",
         artist: "OneRepublic",
         duration: "3:23",
-        image: "./images/covers/better-days.jpg", // LOCAL IMAGE
+        image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE
         src: "./music/better-days.mp3" // LOCAL FILE
     }
     // ============================================================
 ];
 
 // PLAYLIST CATEGORIES (Optional - you can organize songs by category)
-const PLAYLIST_CATEGORIES = {
-    ceremony: [
-        "Perfect",
-        "A Thousand Years", 
-        "At Last"
-    ],
-    reception: [
-        "Can't Help Myself",
-        "Better Days",
-        "Marry Me"
-    ],
-    romantic: [
-        "All of Me",
-        "Thinking Out Loud",
-        "Make You Feel My Love"
-    ]
-};
+// const PLAYLIST_CATEGORIES = {
+//     ceremony: [
+//         "Perfect",
+//         "A Thousand Years", 
+//         "At Last"
+//     ],
+//     reception: [
+//         "Can't Help Myself",
+//         "Better Days",
+//         "Marry Me"
+//     ],
+//     romantic: [
+//         "All of Me",
+//         "Thinking Out Loud",
+//         "Make You Feel My Love"
+//     ]
+// };
 
 // INSTRUCTIONS FOR ADDING SONGS:
 // ==============================
