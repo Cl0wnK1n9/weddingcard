@@ -16,7 +16,7 @@ const WEDDING_PLAYLIST = [
         artist: "Ed Sheeran",
         duration: "4:23",
         image: "./images/couples/_ANH9875.jpg", // LOCAL IMAGE - put in images/covers folder
-        src: "./music/perfect-ed-sheeran.mp3" // LOCAL FILE - put perfect-ed-sheeran.mp3 in music folder
+        src: "./music/Ed Sheeran-Perfect.mp3" // LOCAL FILE - put perfect-ed-sheeran.mp3 in music folder
     },
     {
         title: "All of Me",
