@@ -996,3 +996,89 @@ function initializeRSVPForm() {
         }, 5000);
     }
 }
+
+// ========================== GALLERY FUNCTIONALITY ==========================
+// Dynamic Gallery Management
+class GalleryManager {
+    constructor() {
+        this.gallery = WEDDING_GALLERY || [];
+        this.config = GALLERY_CONFIG || { defaultShowCount: 8, showAllText: "Tất cả hình ảnh", showLessText: "Ẩn bớt" };
+        this.isShowingAll = false;
+        this.photoGrid = document.getElementById('photo-grid');
+        this.toggleBtn = document.getElementById('gallery-toggle-btn');
+        
+        this.init();
+    }
+    
+    init() {
+        this.renderGallery();
+        this.addEventListeners();
+    }
+    
+    renderGallery() {
+        if (!this.photoGrid) return;
+        
+        // Clear existing content
+        this.photoGrid.innerHTML = '';
+        
+        // Determine how many images to show
+        const imagesToShow = this.isShowingAll ? this.gallery.length : Math.min(this.config.defaultShowCount, this.gallery.length);
+        
+        // Create photo items
+        for (let i = 0; i < imagesToShow; i++) {
+            const photo = this.gallery[i];
+            const photoItem = document.createElement('div');
+            photoItem.className = 'photo-item';
+            
+            const img = document.createElement('img');
+            img.src = photo.src;
+            img.alt = photo.alt;
+            img.loading = 'lazy'; // Add lazy loading for performance
+            
+            photoItem.appendChild(img);
+            this.photoGrid.appendChild(photoItem);
+        }
+        
+        // Update button text and visibility
+        this.updateToggleButton();
+    }
+    
+    updateToggleButton() {
+        if (!this.toggleBtn) return;
+        
+        // Hide button if we have less than or equal to default show count
+        if (this.gallery.length <= this.config.defaultShowCount) {
+            this.toggleBtn.style.display = 'none';
+            return;
+        }
+        
+        // Update button text
+        this.toggleBtn.textContent = this.isShowingAll ? this.config.showLessText : this.config.showAllText;
+        this.toggleBtn.style.display = 'block';
+    }
+    
+    toggleGallery() {
+        this.isShowingAll = !this.isShowingAll;
+        this.renderGallery();
+        
+        // Smooth scroll to gallery section if showing less
+        if (!this.isShowingAll) {
+            document.getElementById('gallery').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+    
+    addEventListeners() {
+        if (this.toggleBtn) {
+            this.toggleBtn.addEventListener('click', () => this.toggleGallery());
+        }
+    }
+}
+
+// Initialize Gallery when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Gallery Manager
+    new GalleryManager();
+});
