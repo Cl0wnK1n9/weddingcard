@@ -27,7 +27,9 @@ function updateCountdown() {
 function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
-        const offsetTop = element.offsetTop - 80; // Account for fixed navbar
+        // Check if navbar is visible (screen width >= 768px)
+        const navbarOffset = window.innerWidth >= 768 ? 80 : 0;
+        const offsetTop = element.offsetTop - navbarOffset;
         window.scrollTo({
             top: offsetTop,
             behavior: 'smooth'
