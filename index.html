@@ -1,493 +1,375 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose Your Character - Pixel Y2K</title>
-    <!-- Pixel font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        @font-face {
-            font-family: 'KVN-97';
-            src: url('resources/font/kvn-97.ttf') format('truetype');
-            font-display: swap;
-        }
-        body {
-            background: linear-gradient(135deg, #fff0fa 0%, #ffb6e6 100%);
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
-        }
-        .title {
-            color: #ff69b4;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-shadow: 2px 2px 0 #fff, 4px 4px 0 #ff69b4;
-            letter-spacing: 2px;
-            text-align: center;
-            width: 100%;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-        }
-        .character-select {
-            display: flex;
-            gap: 3rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            max-width: 700px;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-        }
-        .character {
-            background: #fff;
-            border: 4px solid #ff69b4;
-            border-radius: 16px;
-            box-shadow: 0 0 16px #ffb6e6, 0 0 0 8px #fff0fa;
-            padding: 2rem 1.5rem 1rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
-            min-width: 180px;
-            max-width: 90vw;
-            box-sizing: border-box;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-        }
-        .character:hover, .character.selected {
-            transform: scale(1.08) rotate(-2deg);
-            box-shadow: 0 0 32px #ff69b4, 0 0 0 8px #fff0fa;
-            border-color: #fff;
-        }
-        .pixel-art {
-            width: 96px;
-            height: 96px;
-            image-rendering: pixelated;
-            margin-bottom: 1rem;
-            background: #ffe4f7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed #ff69b4;
-        }
-        .char-name {
-            color: #ff69b4;
-            font-size: 1rem;
-            margin-top: 0.5rem;
-            text-shadow: 1px 1px 0 #fff;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-        }
-        .select-btn, .level-btn {
-            margin-top: 1rem;
-            background: #ff69b4;
-            color: #fff;
-            border: 2px solid #fff;
-            border-radius: 8px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.9rem;
-            padding: 0.5rem 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 2px 8px #ffb6e6;
-            letter-spacing: 1px;
-            transition: background 0.15s, color 0.15s, border 0.15s;
-            width: 100%;
-            min-width: 120px;
-            max-width: 100%;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-        }
-        .select-btn:hover {
-            background: #fff;
-            color: #ff69b4;
-            border: 2px solid #ff69b4;
-        }
-        /* Remove #nameInputScreen and related styles */
-        /* Remove styles for #charNameInput */
-        @media (max-width: 600px) {
-            .title {
-                font-size: 1.2rem;
-            }
-            .character-select {
-                gap: 1rem;
-                max-width: 98vw;
-            }
-            .character {
-                padding: 1rem 0.5rem 0.5rem 0.5rem;
-                min-width: 120px;
-            }
-            .pixel-art {
-                width: 64px;
-                height: 64px;
-            }
-            .select-btn, .level-btn {
-                font-size: 0.7rem;
-                padding: 0.5rem 0.5rem;
-                min-width: 80px;
-                max-width: 90px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
-        @media (max-width: 400px) {
-            .title {
-                font-size: 0.9rem;
-            }
-            .character {
-                min-width: 90px;
-            }
-            .pixel-art {
-                width: 40px;
-                height: 40px;
-            }
-            .select-btn, .level-btn {
-                font-size: 0.6rem;
-            }
-        }
-        img[alt="Pixel Bow"] {
-            max-width: 60vw;
-            width: 200px;
-            height: auto;
-        }
-        /* Love Story Carousel Styles */
-        #loveStoryCarousel {
-            position: relative;
-            width: 320px;
-            max-width: 90vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-        }
-        #loveStoryCard {
-            background: #fff;
-            border: 2px solid #ff69b4;
-            border-radius: 16px;
-            box-shadow: 0 0 8px #ffb6e6;
-            color: #ff69b4;
-            font-size: 1.1rem;
-            text-align: center;
-            font-family: 'Press Start 2P', cursive;
-            min-height: 120px;
-            min-width: 220px;
-            max-width: 280px;
-            padding: 1.5rem 1rem;
-            margin: 0 2.5rem;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-        }
-        #loveStoryIndicators {
-            margin: 1rem 0 0 0;
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-        }
-        /* Arrow buttons for carousel */
-        .arrow-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #ff69b4;
-            color: #fff;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            width: 2.5rem;
-            height: 2.5rem;
-            min-width: unset;
-            font-size: 1.5rem;
-            padding: 0;
-            cursor: pointer;
-            z-index: 2;
-        }
-        #loveStoryPrev {
-            left: -2.5rem;
-        }
-        #loveStoryNext {
-            right: -2.5rem;
-        }
-        #musicBox {
-            position:fixed;
-            top:18px;
-            right:18px;
-            z-index:99;
-            background:#fff0fa;
-            border:2px solid #ff69b4;
-            border-radius:12px;
-            box-shadow:0 2px 8px #ffb6e6;
-            padding:0.5rem 1rem;
-            display:flex;
-            align-items:center;
-            gap:0.5rem;
-            min-width:140px;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-        }
-        #musicTitle.marquee {
-            display: inline-block;
-            position: relative;
-            max-width: 80px;
-            overflow: hidden;
-            white-space: nowrap;
-            vertical-align: middle;
-            font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;
-        }
-        #musicTitle.marquee span {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee-move 6s linear infinite;
-        }
-        @keyframes marquee-move {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-    </style>
+    <title>Mạnh Dũng & Tú Anh</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@300;400;600;700&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Playlist Configuration -->
+    <script src="playlist-config.js"></script>
 </head>
 <body>
-    <!-- Music Box (top right) -->
-    <div id="musicBox" style="position:fixed;top:18px;right:18px;z-index:99;background:#fff0fa;border:2px solid #ff69b4;border-radius:12px;box-shadow:0 2px 8px #ffb6e6;padding:0.5rem 1rem;display:flex;align-items:center;gap:0.5rem;min-width:140px;">
-        <button id="musicPrev" title="Previous" style="background:none;border:none;color:#ff69b4;font-size:1.2rem;cursor:pointer;padding:0 0.3rem;">&lt;&lt;</button>
-        <button id="musicPlayPause" title="Play/Pause" style="background:none;border:none;color:#ff69b4;font-size:1.2rem;cursor:pointer;padding:0 0.3rem;">&#9658;</button>
-        <button id="musicNext" title="Next" style="background:none;border:none;color:#ff69b4;font-size:1.2rem;cursor:pointer;padding:0 0.3rem;">&gt;&gt;</button>
-        <input id="musicVolume" type="range" min="0" max="1" step="0.01" value="0.7" style="width:60px;vertical-align:middle;">
-        <audio id="musicAudio" style="display:none;" preload="auto"></audio>
-        <span id="musicTitle" style="font-size:0.7rem;color:#ff69b4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px;display:inline-block;position:relative;">
-            <!-- Song title will be set by JS -->
-        </span>
-    </div>
-    <img src="resources/pngegg.png" alt="Pixel Bow" style="display:block;margin:0 auto 1.5rem auto;width:200px;height:auto;image-rendering:pixelated;background:none;border:none;box-shadow:none;">
-    <div class="title" id="mainTitle" style="text-align:center; width:100%;">You are</div>
-    <!-- Add back the Love Story Level Select screen -->
-    <div id="loveStoryLevelSelect" style="display:flex; flex-direction:column; align-items:center; width:100%; margin-top:2rem;">
-        <div class="title" style="font-size:1.3rem; margin-bottom:1.5rem;">Choose Your Love Story Level</div>
-        <div style="display:flex; flex-direction:column; gap:1rem; justify-content:center; align-items:center; margin-bottom:2rem; width:100%;">
-            <button class="level-btn select-btn" onclick="selectLoveStoryLevel(0)" style="width:320px;max-width:98vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.75rem;">Ảnh</button>
-            <button class="level-btn select-btn" onclick="selectLoveStoryLevel(1)" style="width:320px;max-width:98vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.75rem;">Chuyện</button>
-            <button class="level-btn select-btn" onclick="selectLoveStoryLevel(2)" style="width:320px;max-width:98vw;font-size:0.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">QR</button>
-        </div>
-    </div>
-    <div id="loveStoryScreen" style="display:none; flex-direction:column; align-items:center; margin-top:2rem; width:100%;">
-        <div id="loveStoryCarouselWrap" style="display:flex; flex-direction:column; align-items:center; width:100%;">
-            <div class="title" style="font-size:1.5rem; margin-bottom:1.5rem;">Our Love Story</div>
-            <div id="loveStoryCarousel" style="position:relative; width:320px; max-width:90vw; display:flex; align-items:center; justify-content:center;">
-                <button id="loveStoryPrev" class="select-btn" style="position:absolute; left:-2.5rem; z-index:2; width:2.5rem; height:2.5rem; min-width:unset; font-size:1.5rem; padding:0;" onclick="showLoveStoryCard(currentLoveStoryCard-1)">&lt;</button>
-                <div id="loveStoryCard" style="background:#fff; border:2px solid #ff69b4; border-radius:16px; box-shadow:0 0 8px #ffb6e6; color:#ff69b4; font-size:1.1rem; text-align:center; font-family:'Press Start 2P', cursive; min-height:120px; min-width:220px; max-width:280px; padding:1.5rem 1rem; margin:0 2.5rem; font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;">
-                    <!-- Card content will be injected here -->
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-image">
+                <img src="./images/covers/LMC_6912.jpg" alt="Mạnh Dũng & Tú Anh">
+            </div>
+            <div class="hero-text">
+                <h1>Mạnh Dũng & Tú Anh</h1>
+                <div class="wedding-date">
+                    <div class="date-block">
+                        <span class="day">01</span>
+                        <span class="month">11</span>
+                        <span class="text">getting married</span>
+                    </div>
                 </div>
-                <button id="loveStoryNext" class="select-btn" style="position:absolute; right:-2.5rem; z-index:2; width:2.5rem; height:2.5rem; min-width:unset; font-size:1.5rem; padding:0;" onclick="showLoveStoryCard(currentLoveStoryCard+1)">&gt;</button>
+                <div class="countdown">
+                    <div id="countdown-timer">
+                        <span id="days">00</span> Ngày 
+                        <span id="hours">00</span> Giờ 
+                        <span id="minutes">00</span> Phút 
+                        <span id="seconds">00</span> Giây
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="scrollToSection('rsvp')">RSVP</button>
+                    <button class="btn-secondary" onclick="scrollToSection('gift')">Mừng cưới</button>
+                </div>
             </div>
-            <div id="loveStoryIndicators" style="margin:1rem 0 0 0; display:flex; gap:0.5rem; justify-content:center; font-family: 'KVN-97', Arial, Tahoma, Verdana, sans-serif;">
-                <!-- Dots will be injected here -->
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="#hero">Trang chủ</a></li>
+            <li><a href="#gallery">Album ảnh</a></li>
+            <li><a href="#story">Chuyện tình yêu</a></li>
+            <li><a href="#events">Sự kiện cưới</a></li>
+            <li><a href="#couple">Cô dâu & chú rể</a></li>
+            <li><a href="#gift">Hộp mừng cưới</a></li>
+        </ul>
+    </nav>
+
+    <!-- Photo Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2>Album Ảnh Cưới Của Chúng Mình</h2>
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="./images/gallery/LMC_8687.jpg" alt="Wedding Photo 1">
+                </div>
+                <div class="photo-item">
+                    <img src="./images/gallery/LMC_8981.jpg" alt="Wedding Photo 2">
+                </div>
+                <div class="photo-item">
+                    <img src="./images/gallery/LMC_8994.jpg" alt="Wedding Photo 3">
+                </div>
+                <div class="photo-item">
+                    <img src="./images/gallery/LMC_9056.jpg" alt="Wedding Photo 4">
+                </div>
+                <div class="photo-item">
+                    <img src="./images/gallery/LMC_9140.jpg" alt="Wedding Photo 5">
+                </div>
+                <div class="photo-item">
+                    <img src="./images/gallery/LMC_9203.jpg" alt="Wedding Photo 6">
+                </div>
             </div>
-            <button class="select-btn" id="loveStoryContinueBtn" onclick="showWeddingDetailScreen()" style="margin-top:1.5rem; background:#fff; color:#ff69b4; border:2px solid #ff69b4; width:120px; min-width:unset; max-width:unset; padding:0.5rem 0.5rem;">WEDDING DETAILS</button>
+            <button class="btn-view-all">Tất cả hình ảnh</button>
+        </div>
+    </section>
+
+    <!-- Love Story Section -->
+    <section id="story" class="story-section">
+        <div class="container">
+            <h2>Loading ...</h2>
+            <p class="story-subtitle">Loading ...</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">Loading ...</div>
+                    <div class="timeline-content">
+                        <h3>Loading ...</h3>
+                        <p>Loading ...</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">Loading ...</div>
+                    <div class="timeline-content">
+                        <h3>Loading ...</h3>
+                        <p>Loading ...</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">Loading ...</div>
+                    <div class="timeline-content">
+                        <h3>Loading ...</h3>
+                        <p>Loading ...</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">Loading ...</div>
+                    <div class="timeline-content">
+                        <h3>Loading ...</h3>
+                        <p>Loading ...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="couple-preview">
+                <img src="./images/couples/_ANH9875.jpg" alt="Couple Photo">
+                <div class="couple-names">
+                    <span class="groom">Groom/ Mạnh Dũng</span>
+                    <span class="bride">Bride/ Tú Anh</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wedding Events Section -->
+    <section id="events" class="events-section">
+        <div class="container">
+            <h2>Sự Kiện Cưới</h2>
+            <p class="events-subtitle">Thân mời bạn tới tham dự Lễ cưới của chúng mình!</p>
+            
+            <div class="events-grid">
+                <div class="event-card">
+                    <h3>LỄ CƯỚI</h3>
+                    <div class="event-time">11:30 01/11/2025</div>
+                    <div class="event-location">Phòng Sapphire (tầng 3), Trống Đồng Palace - 72 Trần Đăng Ninh, Cầu Giấy, Hà Nội</div>
+                    <div class="event-actions">
+                        <button class="btn-calendar">Thêm vào lịch</button>
+                        <a href="https://maps.app.goo.gl/T9zofNfUkj8xVaMy9" target="_blank" class="btn-map">Xem bản đồ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Couple Section -->
+    <section id="couple" class="couple-section">
+        <div class="container">
+            <h2>Cô Dâu & Chú Rể</h2>
+            
+            <div class="couple-cards">
+                <div class="couple-card">
+                    <div class="couple-photo">
+                        <img src="./images/couples/LMC_6613.jpg" alt="Mạnh Dũng">
+                    </div>
+                    <div class="couple-info">
+                        <h3>Mạnh Dũng</h3>
+                        <p>Dũng Đỗ</p>
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/d%C5%A9ng-%C4%91%E1%BB%97-9196621ab/" target="_blank">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="couple-card">
+                    <div class="couple-photo">
+                        <img src="./images/couples/LMC_6724.jpg" alt="Tú Anh">
+                    </div>
+                    <div class="couple-info">
+                        <h3>Tú Anh</h3>
+                        <p>Tú Anh Hoàng</p>
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/t%C3%BA-anh-ho%C3%A0ng-20bab6370/" target="_blank">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Music Box -->
+    <div class="floating-music-box" id="floating-music-box">
+        <div class="floating-music-header">
+            <div class="floating-music-toggle" id="music-toggle">
+                <i class="fas fa-music"></i>
+            </div>
+            <button class="floating-music-hide" id="music-hide-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="floating-music-content" id="floating-music-content">
+            <div class="floating-current-song">
+                <div class="floating-song-image">
+                    <img id="floating-song-image" src="./images/couples/_ANH9875.jpg" alt="Current Song">
+                    <div class="floating-play-overlay" id="floating-play-overlay">
+                        <i class="fas fa-play" id="floating-play-icon"></i>
+                    </div>
+                </div>
+                <div class="floating-song-info">
+                    <div class="floating-song-title" id="floating-song-title">Perfect</div>
+                    <div class="floating-song-artist" id="floating-song-artist">Ed Sheeran</div>
+                    <div class="floating-progress-bar">
+                        <div class="floating-progress" id="floating-progress"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="floating-controls">
+                <button class="floating-control-btn" id="floating-prev-btn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="floating-control-btn floating-play-btn" id="floating-play-pause-btn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="floating-control-btn" id="floating-next-btn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <div class="floating-volume">
+                <i class="fas fa-volume-up"></i>
+                <input type="range" class="floating-volume-slider" id="floating-volume-slider" min="0" max="100" value="70">
+            </div>
+            
+            <div class="floating-playlist">
+                <div class="floating-playlist-header">
+                    <span>Playlist</span>
+                    <button class="playlist-toggle" id="playlist-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="floating-playlist-items" id="floating-playlist-items">
+                    <!-- Playlist items will be dynamically generated from playlist-config.js -->
+                    <!-- This ensures the HTML always matches your configured playlist -->
+                </div>
+            </div>
         </div>
     </div>
-    <div id="weddingDetailScreen" style="display:none; flex-direction:column; align-items:center; margin-top:2rem;">
-        <div class="title" style="font-size:1.5rem; margin-bottom:1.5rem;">Trong Dong Palace</div>
-        <div style="color:#ff69b4; font-size:1.1rem; margin-bottom:1rem; text-align:center; font-family:'Press Start 2P', cursive;">
-            <div style="margin-bottom:0.5rem;">Time: 18:00, 1 July 2025</div>
-            <div style="margin-bottom:0.5rem;">Location: Grand Ballroom, Pink Palace Hotel</div>
+
+    <!-- Show Floating Music Button -->
+    <button class="show-floating-music" id="show-music-btn" title="Mở nhạc cưới">
+        <i class="fas fa-music"></i>
+    </button>
+
+    <!-- Audio element (hidden) -->
+    <audio id="audio-player" preload="metadata">
+        <source src="" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Gift Section -->
+    <section id="gift" class="gift-section">
+        <div class="container">
+            <h2>Hộp mừng cưới</h2>
+            <p class="gift-subtitle">Thật vui vì được gặp và đón tiếp các bạn trong một dịp đặc biệt như đám cưới của chúng tôi.</p>
+            
+            <div class="gift-cards">
+                <div class="gift-card">
+                    <h3>ĐẾN CHÚ RỂ</h3>
+                    <div class="qr-code">
+                        <img src="" alt="QR Code Chú Rể">
+                    </div>
+                    <div class="bank-info">
+                        <p><strong>Ngân hàng:</strong> Vietcombank</p>
+                        <p><strong>Tên tài khoản:</strong> DO MANH DUNG</p>
+                        <p><strong>Số tài khoản:</strong> xxxxxxxxxxx</p>
+                    </div>
+                </div>
+
+                <div class="gift-card">
+                    <h3>ĐẾN CÔ DÂU</h3>
+                    <div class="qr-code">
+                        <img src="" alt="QR Code Cô Dâu">
+                    </div>
+                    <div class="bank-info">
+                        <p><strong>Ngân hàng:</strong> Vietcombank</p>
+                        <p><strong>Tên tài khoản:</strong> HOANG TU ANH</p>
+                        <p><strong>Số tài khoản:</strong> xxxxxxxxxxx</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="thank-you">
+                <h3>Thank you!</h3>
+                <p>-- Mạnh Dũng & Tú Anh --</p>
+            </div>
         </div>
-        <div style="background:#fff; border:4px solid #ff69b4; border-radius:16px; padding:1.5rem; display:flex; flex-direction:column; align-items:center; box-shadow:0 0 16px #ffb6e6; width:200px; height:200px; justify-content:center;">
-            <img id="qrCodeImg" src="resources/BrideQR.jpg" alt="Wedding QR Code" style="max-width:100%; max-height:100%; width:auto; height:auto; display:block; margin:0 auto; image-rendering:pixelated;">
+    </section>
+
+    <!-- RSVP Section -->
+    <section id="rsvp" class="rsvp-section">
+        <div class="container">
+            <h2>Xác nhận tham dự</h2>
+            <p>Vui lòng xác nhận sự tham dự của bạn để chúng mình có thể chuẩn bị chu đáo nhất.</p>
+            <button class="btn-rsvp" id="show-rsvp-form">
+                Xác nhận tham dự
+            </button>
+
+            <!-- RSVP Form Modal -->
+            <div class="rsvp-modal" id="rsvp-modal">
+                <div class="rsvp-modal-content">
+                    <div class="rsvp-modal-header">
+                        <h3>Xác nhận tham dự</h3>
+                        <button class="rsvp-close" id="rsvp-close">&times;</button>
+                    </div>
+                    <form class="rsvp-form" id="rsvp-form">
+                        <div class="form-group">
+                            <label for="guest-name">Họ và tên *</label>
+                            <input type="text" id="guest-name" name="guest-name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="guest-phone">Số điện thoại *</label>
+                            <input type="tel" id="guest-phone" name="guest-phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="attendance">Bạn có thể tham dự không? *</label>
+                            <select id="attendance" name="attendance" required>
+                                <option value="">Chọn...</option>
+                                <option value="yes">Có, tôi sẽ tham dự</option>
+                                <option value="no">Rất tiếc, tôi không thể tham dự</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="guest-count-group">
+                            <label for="guest-count">Số lượng khách tham dự *</label>
+                            <select id="guest-count" name="guest-count">
+                                <option value="1">1 người</option>
+                                <option value="2">2 người</option>
+                                <option value="3">3 người</option>
+                                <option value="4">4 người</option>
+                                <option value="5">5+ người</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Lời chúc cho cô dâu chú rể</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Gửi lời chúc tốt đẹp đến chúng mình..."></textarea>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <button type="button" class="btn-cancel" id="cancel-rsvp">Hủy</button>
+                            <button type="submit" class="btn-submit">Gửi xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <button class="select-btn" onclick="showLoveStoryScreen()" style="margin-top:1.5rem;background:#fff;color:#ff69b4;border:2px solid #ff69b4;">BACK</button>
-    </div>
-    <script>
-        // Remove all functions and variables related to character selection, name input, and level selection
+    </section>
 
-        // --- Love Story Data ---
-        const loveStoryLevels = [
-            [
-                "Once upon a time, two hearts met and began a journey filled with laughter, adventures, and endless love.",
-                "Through every up and down, our bond grew stronger, and every moment became a cherished memory.",
-                "Now, we invite you to celebrate the next chapter of our story together!"
-            ],
-            [
-                "Level 2: We met by chance, but our love was destiny.",
-                "From shy glances to shared dreams, our story blossomed.",
-                "Join us as we celebrate a love that's truly meant to be!"
-            ],
-            [
-                "Destination: Our love has taken us to new places, near and far.",
-                "Every journey together is an adventure, every destination a memory.",
-                "Let's make the next stop unforgettable—see you at the wedding!"
-            ]
-        ];
-        // --- Get type and name from URL ---
-        function getQueryParam(param, defaultValue) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param) || defaultValue;
-        }
-        const typeParam = getQueryParam('type', 'Bride');
-        const nameParam = getQueryParam('name', 'Anonymous');
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Mạnh Dũng & Tú Anh</p>
+        </div>
+    </footer>
 
-        // --- Set up mainTitle and QR code based on type/name ---
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set main title
-            document.getElementById('mainTitle').textContent = `Hello ${nameParam}`;
-            document.getElementById('loveStoryLevelSelect').style.display = 'flex';
-            document.getElementById('loveStoryScreen').style.display = 'none';
-            document.getElementById('weddingDetailScreen').style.display = 'none';
-            // Set QR code based on type
-            const qrImg = document.getElementById('qrCodeImg');
-            if (typeParam.toLowerCase() === 'groom') {
-                qrImg.src = 'resources/GroomQR.jpg';
-            } else {
-                qrImg.src = 'resources/BrideQR.jpg';
-            }
-            // Do not render love story card yet, wait for level selection
-        });
-
-        // --- Love Story Carousel Logic ---
-        let currentLoveStoryLevel = 0;
-        let currentLoveStoryCard = 0;
-        function renderLoveStoryCard(idx) {
-            const cards = loveStoryLevels[currentLoveStoryLevel]; // Use selected level
-            if (idx < 0) idx = 0;
-            if (idx > cards.length - 1) idx = cards.length - 1;
-            currentLoveStoryCard = idx;
-            document.getElementById('loveStoryCard').innerHTML = cards[idx];
-            // Update indicators
-            const indicators = cards.map((_, i) =>
-                `<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${i===idx?'#ff69b4':'#ffe4f7'};border:1px solid #ff69b4;"></span>`
-            ).join('');
-            document.getElementById('loveStoryIndicators').innerHTML = indicators;
-            // Enable/disable arrows
-            document.getElementById('loveStoryPrev').disabled = idx === 0;
-            document.getElementById('loveStoryNext').disabled = idx === cards.length - 1;
-        }
-        function showLoveStoryCard(idx) {
-            renderLoveStoryCard(idx);
-        }
-        function showWeddingDetailScreen() {
-            document.getElementById('loveStoryScreen').style.display = 'none';
-            document.getElementById('weddingDetailScreen').style.display = 'flex';
-        }
-        function showLoveStoryScreen() {
-            document.getElementById('weddingDetailScreen').style.display = 'none';
-            document.getElementById('loveStoryScreen').style.display = 'flex';
-        }
-        // --- Music Box Logic ---
-        // List your mp4 music files here (relative to /resources/music/)
-        const musicFiles = [
-            "yeu5.mp3",
-            "xuanthi.mp3"
-            // Add more as needed
-        ];
-        const musicTitles = [
-            "Yêu 5 - Rhymastic",
-            "Xuân Thì - Hà Anh Tuấn"
-            // Add more as needed
-        ];
-        let currentMusicIdx = 0;
-        const audio = document.getElementById('musicAudio');
-        const prevBtn = document.getElementById('musicPrev');
-        const nextBtn = document.getElementById('musicNext');
-        const playPauseBtn = document.getElementById('musicPlayPause');
-        const musicTitle = document.getElementById('musicTitle');
-        const volumeBar = document.getElementById('musicVolume');
-        // Set default volume to 60%
-        volumeBar.value = 0.6;
-        audio.volume = 0.6;
-
-        function updatePlayPauseIcon() {
-            playPauseBtn.innerHTML = audio.paused ? "&#9658;" : "&#10073;&#10073;";
-        }
-
-        playPauseBtn.onclick = function() {
-            if (audio.paused) {
-                audio.play();
-            } else {
-                audio.pause();
-            }
-        };
-
-        audio.onplay = updatePlayPauseIcon;
-        audio.onpause = updatePlayPauseIcon;
-
-        function setMusicTitleMarquee(title) {
-            const el = musicTitle;
-            // Remove previous marquee
-            el.classList.remove('marquee');
-            el.innerHTML = '';
-            // Create a temporary span to measure width
-            const temp = document.createElement('span');
-            temp.style.visibility = 'hidden';
-            temp.style.position = 'absolute';
-            temp.style.whiteSpace = 'nowrap';
-            temp.textContent = title;
-            document.body.appendChild(temp);
-            const isOverflow = temp.offsetWidth > 80;
-            document.body.removeChild(temp);
-            if (isOverflow) {
-                el.classList.add('marquee');
-                el.innerHTML = `<span>${title}&nbsp;&nbsp;&nbsp;</span>`;
-            } else {
-                el.textContent = title;
-            }
-        }
-
-        function loadMusic(idx, autoplay = true) {
-            if (idx < 0) idx = musicFiles.length - 1;
-            if (idx >= musicFiles.length) idx = 0;
-            currentMusicIdx = idx;
-            audio.pause();
-            audio.currentTime = 0;
-            audio.src = "resources/music/" + musicFiles[idx];
-            setMusicTitleMarquee(musicTitles[idx] || musicFiles[idx]);
-            audio.load();
-            audio.volume = parseFloat(volumeBar.value);
-            if (autoplay) {
-                // Some browsers require play() to be called after load and user interaction
-                audio.play().catch(() => {});
-            }
-            updatePlayPauseIcon();
-        }
-        prevBtn.onclick = function() {
-            loadMusic(currentMusicIdx - 1);
-        };
-        nextBtn.onclick = function() {
-            loadMusic(currentMusicIdx + 1);
-        };
-        audio.onended = function() {
-            // Loop forever: go to next song, wrap around
-            loadMusic((currentMusicIdx + 1) % musicFiles.length);
-        };
-        // Volume bar logic
-        volumeBar.oninput = function() {
-            audio.volume = parseFloat(volumeBar.value);
-        };
-        // Set initial volume
-        audio.volume = parseFloat(volumeBar.value);
-
-        // Autoplay first song on load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadMusic(0, true);
-            updatePlayPauseIcon();
-            // Auto click play button after page load (for browsers that require user interaction)
-            setTimeout(function() {
-                playPauseBtn.click();
-            }, 100);
-        });
-
-        function selectLoveStoryLevel(levelIdx) {
-            currentLoveStoryLevel = levelIdx;
-            currentLoveStoryCard = 0;
-            document.getElementById('loveStoryLevelSelect').style.display = 'none';
-            document.getElementById('loveStoryScreen').style.display = 'flex';
-            renderLoveStoryCard(0);
-        }
-        function backToLoveStoryLevelSelect() {
-            document.getElementById('loveStoryScreen').style.display = 'none';
-            document.getElementById('loveStoryLevelSelect').style.display = 'flex';
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
