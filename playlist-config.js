@@ -98,7 +98,7 @@ const WEDDING_PLAYLIST = [
     // ============================================================
 ];
 
-// PLAYLIST CATEGORIES (Optional - you can organize songs by category)
+// // PLAYLIST CATEGORIES (Optional - you can organize songs by category)
 // const PLAYLIST_CATEGORIES = {
 //     ceremony: [
 //         "Perfect",

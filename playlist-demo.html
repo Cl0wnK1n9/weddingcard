@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist Management Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .demo-button {
+            background: #8B4B7E;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .demo-button:hover {
+            background: #6a3a61;
+        }
+        .demo-input {
+            width: 200px;
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .playlist-display {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .song-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 3px;
+            border-left: 4px solid #8B4B7E;
+        }
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎵 Wedding Playlist Management Demo</h1>
+        <p>This demo shows how to manage your wedding playlist dynamically. Open the browser console (F12) to see the logs.</p>
+
+        <div class="demo-section">
+            <h3>📝 Add New Song</h3>
+            <input type="text" id="songTitle" placeholder="Song Title" class="demo-input">
+            <input type="text" id="songArtist" placeholder="Artist Name" class="demo-input">
+            <input type="text" id="songDuration" placeholder="Duration (3:45)" class="demo-input">
+            <input type="text" id="songUrl" placeholder="Song URL" class="demo-input">
+            <br>
+            <button onclick="addNewSong()" class="demo-button">Add Song</button>
+        </div>
+
+        <div class="demo-section">
+            <h3>🗑️ Remove Song</h3>
+            <input type="number" id="removeIndex" placeholder="Song Index (0, 1, 2...)" class="demo-input">
+            <button onclick="removeSongByIndex()" class="demo-button">Remove Song</button>
+        </div>
+
+        <div class="demo-section">
+            <h3>📋 Playlist Actions</h3>
+            <button onclick="showPlaylistInfo()" class="demo-button">Show Playlist Info</button>
+            <button onclick="addSampleSongs()" class="demo-button">Add Sample Songs</button>
+            <button onclick="clearPlaylist()" class="demo-button">Clear All Songs</button>
+        </div>
+
+        <div class="demo-section">
+            <h3>🎼 Current Playlist</h3>
+            <div id="playlistDisplay" class="playlist-display">
+                <p>Playlist will appear here...</p>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>💻 Code Examples</h3>
+            <h4>Add a song programmatically:</h4>
+            <div class="code-example">
+// Add a new song to the playlist
+musicPlayer.addSong({
+    title: "My Love",
+    artist: "Westlife",
+    duration: "3:56",
+    image: "https://example.com/cover.jpg",
+    src: "https://example.com/mylove.mp3"
+});
+            </div>
+
+            <h4>Add multiple songs at once:</h4>
+            <div class="code-example">
+// Add multiple songs
+const newSongs = [
+    {
+        title: "Wonderful Tonight",
+        artist: "Eric Clapton",
+        duration: "3:43",
+        src: "https://example.com/wonderful.mp3"
+    },
+    {
+        title: "Unchained Melody",
+        artist: "The Righteous Brothers", 
+        duration: "3:35",
+        src: "https://example.com/unchained.mp3"
+    }
+];
+musicPlayer.addMultipleSongs(newSongs);
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the playlist configuration -->
+    <script src="playlist-config.js"></script>
+    
+    <script>
+        // Create a simple music player instance for demo
+        let demoPlaylist = [...WEDDING_PLAYLIST];
+        
+        function updatePlaylistDisplay() {
+            const display = document.getElementById('playlistDisplay');
+            if (demoPlaylist.length === 0) {
+                display.innerHTML = '<p>No songs in playlist</p>';
+                return;
+            }
+            
+            let html = '';
+            demoPlaylist.forEach((song, index) => {
+                html += `
+                    <div class="song-item">
+                        <strong>${index + 1}. ${song.title}</strong> by ${song.artist} 
+                        <span style="color: #666;">(${song.duration})</span>
+                    </div>
+                `;
+            });
+            display.innerHTML = html;
+        }
+
+        function addNewSong() {
+            const title = document.getElementById('songTitle').value;
+            const artist = document.getElementById('songArtist').value; 
+            const duration = document.getElementById('songDuration').value;
+            const src = document.getElementById('songUrl').value;
+
+            if (!title || !artist || !src) {
+                alert('Please fill in at least Title, Artist, and Song URL');
+                return;
+            }
+
+            const newSong = {
+                title: title,
+                artist: artist,
+                duration: duration || '0:00',
+                image: "https://cdn.biihappy.com/ziiweb/website/678327ed49dc85729e0ff704/templates/643d7aa30be61636f4051958/4cd46e095fde1b78d756b334e688f47b.jpg",
+                src: src
+            };
+
+            demoPlaylist.push(newSong);
+            console.log('Added song:', newSong);
+            
+            // Clear inputs
+            document.getElementById('songTitle').value = '';
+            document.getElementById('songArtist').value = '';
+            document.getElementById('songDuration').value = '';
+            document.getElementById('songUrl').value = '';
+            
+            updatePlaylistDisplay();
+        }
+
+        function removeSongByIndex() {
+            const index = parseInt(document.getElementById('removeIndex').value);
+            if (isNaN(index) || index < 0 || index >= demoPlaylist.length) {
+                alert('Invalid song index');
+                return;
+            }
+
+            const removedSong = demoPlaylist.splice(index, 1)[0];
+            console.log('Removed song:', removedSong);
+            document.getElementById('removeIndex').value = '';
+            updatePlaylistDisplay();
+        }
+
+        function showPlaylistInfo() {
+            const info = {
+                totalSongs: demoPlaylist.length,
+                songs: demoPlaylist.map(song => `${song.title} - ${song.artist}`)
+            };
+            console.log('Playlist Info:', info);
+            alert(`Total Songs: ${info.totalSongs}\nSee console for details`);
+        }
+
+        function addSampleSongs() {
+            const sampleSongs = [
+                {
+                    title: "My Girl",
+                    artist: "The Temptations",
+                    duration: "2:52", 
+                    image: "https://cdn.biihappy.com/ziiweb/website/678327ed49dc85729e0ff704/templates/643d7aa30be61636f4051958/4cd46e095fde1b78d756b334e688f47b.jpg",
+                    src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                },
+                {
+                    title: "Stand By Me",
+                    artist: "Ben E. King",
+                    duration: "2:58",
+                    image: "https://cdn.biihappy.com/ziiweb/website/678327ed49dc85729e0ff704/templates/643d7aa30be61636f4051958/4cd46e095fde1b78d756b334e688f47b.jpg",
+                    src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                }
+            ];
+
+            demoPlaylist.push(...sampleSongs);
+            console.log('Added sample songs:', sampleSongs);
+            updatePlaylistDisplay();
+        }
+
+        function clearPlaylist() {
+            if (confirm('Are you sure you want to clear all songs?')) {
+                demoPlaylist = [];
+                console.log('Playlist cleared');
+                updatePlaylistDisplay();
+            }
+        }
+
+        // Initialize display
+        updatePlaylistDisplay();
+        
+        console.log('Demo loaded! Try the buttons above to manage your playlist.');
+        console.log('Available demo functions:', {
+            addNewSong: 'Add a song using the form',
+            removeSongByIndex: 'Remove a song by its index', 
+            showPlaylistInfo: 'Display playlist information',
+            addSampleSongs: 'Add some sample songs',
+            clearPlaylist: 'Remove all songs'
+        });
+    </script>
+</body>
+</html>

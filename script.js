@@ -1013,6 +1013,7 @@ class GalleryManager {
     init() {
         this.renderGallery();
         this.addEventListeners();
+        this.lightbox = new Lightbox(this.gallery);
     }
     
     renderGallery() {
@@ -1034,6 +1035,7 @@ class GalleryManager {
             img.src = photo.src;
             img.alt = photo.alt;
             img.loading = 'lazy'; // Add lazy loading for performance
+            img.dataset.index = i; // Add index for lightbox
             
             photoItem.appendChild(img);
             this.photoGrid.appendChild(photoItem);
@@ -1041,6 +1043,19 @@ class GalleryManager {
         
         // Update button text and visibility
         this.updateToggleButton();
+        
+        // Add click event listeners to images for lightbox
+        this.addImageClickListeners();
+    }
+    
+    addImageClickListeners() {
+        const images = this.photoGrid.querySelectorAll('.photo-item img');
+        images.forEach(img => {
+            img.addEventListener('click', (e) => {
+                const index = parseInt(e.target.dataset.index);
+                this.lightbox.show(index);
+            });
+        });
     }
     
     updateToggleButton() {
@@ -1074,6 +1089,110 @@ class GalleryManager {
         if (this.toggleBtn) {
             this.toggleBtn.addEventListener('click', () => this.toggleGallery());
         }
+    }
+}
+
+// Lightbox Class
+class Lightbox {
+    constructor(images) {
+        this.images = images;
+        this.currentIndex = 0;
+        this.isOpen = false;
+        
+        this.lightbox = document.getElementById('lightbox');
+        this.lightboxImage = document.getElementById('lightbox-image');
+        this.lightboxCounter = document.getElementById('lightbox-counter');
+        this.closeBtn = document.getElementById('lightbox-close');
+        this.prevBtn = document.getElementById('lightbox-prev');
+        this.nextBtn = document.getElementById('lightbox-next');
+        
+        this.init();
+    }
+    
+    init() {
+        this.addEventListeners();
+    }
+    
+    show(index = 0) {
+        this.currentIndex = index;
+        this.isOpen = true;
+        this.updateImage();
+        this.lightbox.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        
+        // Set background image for blur effect
+        this.setBackgroundImage();
+    }
+    
+    hide() {
+        this.isOpen = false;
+        this.lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+    
+    next() {
+        if (this.currentIndex < this.images.length - 1) {
+            this.currentIndex++;
+        } else {
+            this.currentIndex = 0; // Loop to first image
+        }
+        this.updateImage();
+        this.setBackgroundImage();
+    }
+    
+    prev() {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+        } else {
+            this.currentIndex = this.images.length - 1; // Loop to last image
+        }
+        this.updateImage();
+        this.setBackgroundImage();
+    }
+    
+    updateImage() {
+        const currentImage = this.images[this.currentIndex];
+        this.lightboxImage.src = currentImage.src;
+        this.lightboxImage.alt = currentImage.alt;
+        this.lightboxCounter.textContent = `${this.currentIndex + 1} / ${this.images.length}`;
+    }
+    
+    setBackgroundImage() {
+        const currentImage = this.images[this.currentIndex];
+        document.documentElement.style.setProperty('--lightbox-bg-image', `url(${currentImage.src})`);
+    }
+    
+    addEventListeners() {
+        // Close button
+        this.closeBtn.addEventListener('click', () => this.hide());
+        
+        // Navigation buttons
+        this.nextBtn.addEventListener('click', () => this.next());
+        this.prevBtn.addEventListener('click', () => this.prev());
+        
+        // Click outside image to close
+        this.lightbox.addEventListener('click', (e) => {
+            if (e.target === this.lightbox) {
+                this.hide();
+            }
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!this.isOpen) return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    this.hide();
+                    break;
+                case 'ArrowLeft':
+                    this.prev();
+                    break;
+                case 'ArrowRight':
+                    this.next();
+                    break;
+            }
+        });
     }
 }
 

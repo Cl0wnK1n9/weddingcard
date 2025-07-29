@@ -234,6 +234,7 @@ section h2 {
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .photo-item:hover {
@@ -244,7 +245,9 @@ section h2 {
     width: 100%;
     height: 250px;
     object-fit: cover;
+    object-position: center;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .photo-item:hover img {
@@ -486,6 +489,7 @@ section h2 {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 .couple-info h3 {
@@ -573,6 +577,7 @@ section h2 {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 .play-overlay {
@@ -906,6 +911,7 @@ section h2 {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 .floating-play-overlay {
@@ -1253,6 +1259,7 @@ section h2 {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 .bank-info p {
@@ -1707,6 +1714,182 @@ section h2 {
     
     .timeline-content {
         padding: 15px 20px;
+    }
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.lightbox::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--lightbox-bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(20px);
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.lightbox-content {
+    position: relative;
+    margin: 50px auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 900px;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 10;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.lightbox-prev {
+    left: 50px;
+}
+
+.lightbox-next {
+    right: 50px;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 16px;
+    border-radius: 20px;
+    z-index: 10;
+}
+
+/* Mobile responsive lightbox */
+@media (max-width: 768px) {
+    .lightbox-content {
+        width: 95%;
+        margin: 20px auto;
+        height: 85vh;
+    }
+    
+    .lightbox-close {
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .lightbox-prev,
+    .lightbox-next {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .lightbox-prev {
+        left: 20px;
+    }
+    
+    .lightbox-next {
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lightbox-content {
+        margin: 10px auto;
+        height: 90vh;
+    }
+    
+    .lightbox-prev {
+        left: 10px;
+    }
+    
+    .lightbox-next {
+        right: 10px;
+    }
+    
+    .lightbox-counter {
+        bottom: 10px;
+        font-size: 14px;
+        padding: 6px 12px;
     }
 }
 
