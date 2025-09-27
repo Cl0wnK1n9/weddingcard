@@ -986,14 +986,14 @@ function initializeRSVPForm() {
             </div>
         `;
 
-        // Auto close after 5 seconds
+        // Auto close after 3 seconds
         setTimeout(() => {
             closeModal();
             // Reset modal content for next use
             setTimeout(() => {
                 location.reload(); // Simple way to reset the modal content
             }, 300);
-        }, 5000);
+        }, 3000);
     }
 }
 
